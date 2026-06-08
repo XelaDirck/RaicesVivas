@@ -184,7 +184,9 @@ fun PantallaEntrar(onLoginExitoso: (String) -> Unit, onVolver: () -> Unit) {
     val scope = rememberCoroutineScope()
     var correo by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
-    var mensaje by remember { mutableStateOf("") }
+    var errorCorreo by remember { mutableStateOf<String?>(null) }
+    var errorContrasena by remember { mutableStateOf<String?>(null) }
+    var mensajeServidor by remember { mutableStateOf("") }
     var cargando by remember { mutableStateOf(false) }
 
     BackHandler { onVolver() }
@@ -193,25 +195,46 @@ fun PantallaEntrar(onLoginExitoso: (String) -> Unit, onVolver: () -> Unit) {
         Column(modifier = Modifier.fillMaxSize().padding(horizontal = 32.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             TopBarConRegreso("Entrar", onVolver)
             Spacer(Modifier.height(16.dp))
-            OutlinedTextField(value = correo, onValueChange = { correo = it }, label = { Text("Correo electronico") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
-            Spacer(Modifier.height(12.dp))
-            OutlinedTextField(value = contrasena, onValueChange = { contrasena = it }, label = { Text("Contrasena") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), visualTransformation = PasswordVisualTransformation())
+            OutlinedTextField(
+                value = correo,
+                onValueChange = { correo = it; errorCorreo = validarCorreoLogin(it) },
+                label = { Text("Correo electronico") },
+                isError = errorCorreo != null,
+                supportingText = { errorCorreo?.let { Text(it, color = Terracota, fontSize = 12.sp) } },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            )
+            Spacer(Modifier.height(8.dp))
+            OutlinedTextField(
+                value = contrasena,
+                onValueChange = { contrasena = it; errorContrasena = validarContrasenaLogin(it) },
+                label = { Text("Contrasena") },
+                isError = errorContrasena != null,
+                supportingText = { errorContrasena?.let { Text(it, color = Terracota, fontSize = 12.sp) } },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp),
+                visualTransformation = PasswordVisualTransformation()
+            )
             Spacer(Modifier.height(16.dp))
-            if (mensaje.isNotEmpty()) Text(mensaje, color = Terracota, fontSize = 13.sp, textAlign = TextAlign.Center)
+            if (mensajeServidor.isNotEmpty()) Text(mensajeServidor, color = Terracota, fontSize = 13.sp, textAlign = TextAlign.Center)
             Spacer(Modifier.height(8.dp))
             Button(
                 onClick = {
-                    scope.launch {
-                        cargando = true
-                        mensaje = try {
-                            val resultado = repo.login(correo, contrasena)
-                            if (resultado.contains("exitoso", true)) {
-                                val nombre = resultado.substringAfter("Bienvenido").trim().trimEnd('"', '}')
-                                onLoginExitoso(nombre)
-                                ""
-                            } else resultado
-                        } catch (e: Exception) { "Error: ${e.message}" }
-                        cargando = false
+                    errorCorreo = validarCorreoLogin(correo)
+                    errorContrasena = validarContrasenaLogin(contrasena)
+                    if (errorCorreo == null && errorContrasena == null) {
+                        scope.launch {
+                            cargando = true
+                            mensajeServidor = try {
+                                val resultado = repo.login(correo, contrasena)
+                                if (resultado.contains("exitoso", true)) {
+                                    val nombre = resultado.substringAfter("Bienvenido").trim().trimEnd('"', '}')
+                                    onLoginExitoso(nombre)
+                                    ""
+                                } else resultado
+                            } catch (e: Exception) { "Error: ${e.message}" }
+                            cargando = false
+                        }
                     }
                 },
                 enabled = !cargando,
@@ -238,7 +261,16 @@ fun PantallaRegistro(onRegistrado: (String) -> Unit, onVolver: () -> Unit) {
     var contrasena by remember { mutableStateOf("") }
     var edad by remember { mutableStateOf("") }
     var pais by remember { mutableStateOf("") }
-    var mensaje by remember { mutableStateOf("") }
+    var expandirPais by remember { mutableStateOf(false) }
+    val paises = listOf("Mexico", "Colombia", "Argentina")
+
+    var errorNombre by remember { mutableStateOf<String?>(null) }
+    var errorUsuario by remember { mutableStateOf<String?>(null) }
+    var errorCorreo by remember { mutableStateOf<String?>(null) }
+    var errorContrasena by remember { mutableStateOf<String?>(null) }
+    var errorEdad by remember { mutableStateOf<String?>(null) }
+    var errorPais by remember { mutableStateOf<String?>(null) }
+    var mensajeServidor by remember { mutableStateOf("") }
     var cargando by remember { mutableStateOf(false) }
 
     BackHandler { onVolver() }
@@ -248,30 +280,103 @@ fun PantallaRegistro(onRegistrado: (String) -> Unit, onVolver: () -> Unit) {
             item {
                 TopBarConRegreso("Crear cuenta", onVolver)
                 Spacer(Modifier.height(8.dp))
-                OutlinedTextField(value = nombreCompleto, onValueChange = { nombreCompleto = it }, label = { Text("Nombre completo") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
-                Spacer(Modifier.height(8.dp))
-                OutlinedTextField(value = nombreUsuario, onValueChange = { nombreUsuario = it }, label = { Text("Nombre de usuario") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
-                Spacer(Modifier.height(8.dp))
-                OutlinedTextField(value = correo, onValueChange = { correo = it }, label = { Text("Correo electronico") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
-                Spacer(Modifier.height(8.dp))
-                OutlinedTextField(value = contrasena, onValueChange = { contrasena = it }, label = { Text("Contrasena") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), visualTransformation = PasswordVisualTransformation())
-                Spacer(Modifier.height(8.dp))
-                OutlinedTextField(value = edad, onValueChange = { edad = it }, label = { Text("Edad") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
-                Spacer(Modifier.height(8.dp))
-                OutlinedTextField(value = pais, onValueChange = { pais = it }, label = { Text("Pais") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
-                Spacer(Modifier.height(16.dp))
-                if (mensaje.isNotEmpty()) Text(mensaje, color = if (mensaje.contains("error", true)) Terracota else Verde, fontSize = 13.sp)
+                OutlinedTextField(
+                    value = nombreCompleto,
+                    onValueChange = { nombreCompleto = it; errorNombre = validarNombreCompleto(it) },
+                    label = { Text("Nombre completo") },
+                    isError = errorNombre != null,
+                    supportingText = { errorNombre?.let { Text(it, color = Terracota, fontSize = 12.sp) } },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp)
+                )
+                Spacer(Modifier.height(4.dp))
+                OutlinedTextField(
+                    value = nombreUsuario,
+                    onValueChange = { nombreUsuario = it; errorUsuario = validarNombreUsuario(it) },
+                    label = { Text("Nombre de usuario") },
+                    isError = errorUsuario != null,
+                    supportingText = { errorUsuario?.let { Text(it, color = Terracota, fontSize = 12.sp) } },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp)
+                )
+                Spacer(Modifier.height(4.dp))
+                OutlinedTextField(
+                    value = correo,
+                    onValueChange = { correo = it; errorCorreo = validarCorreo(it) },
+                    label = { Text("Correo electronico") },
+                    isError = errorCorreo != null,
+                    supportingText = { errorCorreo?.let { Text(it, color = Terracota, fontSize = 12.sp) } },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp)
+                )
+                Spacer(Modifier.height(4.dp))
+                OutlinedTextField(
+                    value = contrasena,
+                    onValueChange = { contrasena = it; errorContrasena = validarContrasena(it) },
+                    label = { Text("Contrasena") },
+                    isError = errorContrasena != null,
+                    supportingText = { errorContrasena?.let { Text(it, color = Terracota, fontSize = 12.sp) } },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp),
+                    visualTransformation = PasswordVisualTransformation()
+                )
+                Spacer(Modifier.height(4.dp))
+                OutlinedTextField(
+                    value = edad,
+                    onValueChange = { edad = it; errorEdad = validarEdad(it) },
+                    label = { Text("Edad") },
+                    isError = errorEdad != null,
+                    supportingText = { errorEdad?.let { Text(it, color = Terracota, fontSize = 12.sp) } },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp)
+                )
+                Spacer(Modifier.height(4.dp))
+                ExposedDropdownMenuBox(
+                    expanded = expandirPais,
+                    onExpandedChange = { expandirPais = !expandirPais }
+                ) {
+                    OutlinedTextField(
+                        value = pais,
+                        onValueChange = {},
+                        readOnly = true,
+                        label = { Text("Pais") },
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandirPais) },
+                        isError = errorPais != null,
+                        supportingText = { errorPais?.let { Text(it, color = Terracota, fontSize = 12.sp) } },
+                        modifier = Modifier.fillMaxWidth().menuAnchor(),
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                    ExposedDropdownMenu(expanded = expandirPais, onDismissRequest = { expandirPais = false }) {
+                        paises.forEach { p ->
+                            DropdownMenuItem(
+                                text = { Text(p) },
+                                onClick = { pais = p; errorPais = null; expandirPais = false }
+                            )
+                        }
+                    }
+                }
+                Spacer(Modifier.height(12.dp))
+                if (mensajeServidor.isNotEmpty()) Text(mensajeServidor, color = if (mensajeServidor.contains("error", true)) Terracota else Verde, fontSize = 13.sp)
                 Spacer(Modifier.height(8.dp))
                 Button(
                     onClick = {
-                        scope.launch {
-                            cargando = true
-                            mensaje = try {
-                                repo.registrar(nombreCompleto, nombreUsuario, correo, contrasena, edad.toIntOrNull() ?: 0, pais)
-                                onRegistrado(nombreUsuario)
-                                ""
-                            } catch (e: Exception) { "Error: ${e.message}" }
-                            cargando = false
+                        errorNombre = validarNombreCompleto(nombreCompleto)
+                        errorUsuario = validarNombreUsuario(nombreUsuario)
+                        errorCorreo = validarCorreo(correo)
+                        errorContrasena = validarContrasena(contrasena)
+                        errorEdad = validarEdad(edad)
+                        errorPais = validarPais(pais)
+                        val hayErrores = listOf(errorNombre, errorUsuario, errorCorreo, errorContrasena, errorEdad, errorPais).any { it != null }
+                        if (!hayErrores) {
+                            scope.launch {
+                                cargando = true
+                                mensajeServidor = try {
+                                    repo.registrar(nombreCompleto, nombreUsuario, correo, contrasena, edad.toIntOrNull() ?: 0, pais)
+                                    onRegistrado(nombreUsuario)
+                                    ""
+                                } catch (e: Exception) { "Error: ${e.message}" }
+                                cargando = false
+                            }
                         }
                     },
                     enabled = !cargando,
@@ -300,9 +405,7 @@ fun PantallaSeleccionLengua(onLenguaSeleccionada: (String) -> Unit, onVolver: ()
         "Otomi" to "Centro de Mexico",
         "Purepecha" to "Michoacan"
     )
-
     BackHandler { onVolver() }
-
     Box(modifier = Modifier.fillMaxSize().background(BeigeCalido)) {
         LazyColumn(modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp)) {
             item {
@@ -343,7 +446,6 @@ fun PantallaHome(nombreUsuario: String, onSeleccionLengua: () -> Unit) {
         Triple("Diccionario", "Explora palabras", Turquesa),
         Triple("Comunidad", "Conecta y comparte", CafeTierra)
     )
-
     Scaffold(
         bottomBar = {
             NavigationBar(containerColor = Color.White) {
