@@ -17,6 +17,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
+import androidx.compose.material3.ExperimentalMaterial3Api
+@OptIn(ExperimentalMaterial3Api::class)
 
 enum class Pantalla {
     SPLASH, ONBOARDING, LOGIN, ENTRAR, REGISTRO, SELECCION_LENGUA, HOME
@@ -331,27 +333,27 @@ fun PantallaRegistro(onRegistrado: (String) -> Unit, onVolver: () -> Unit) {
                     shape = RoundedCornerShape(12.dp)
                 )
                 Spacer(Modifier.height(4.dp))
-                ExposedDropdownMenuBox(
-                    expanded = expandirPais,
-                    onExpandedChange = { expandirPais = !expandirPais }
-                ) {
-                    OutlinedTextField(
-                        value = pais,
-                        onValueChange = {},
-                        readOnly = true,
-                        label = { Text("Pais") },
-                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandirPais) },
-                        isError = errorPais != null,
-                        supportingText = { errorPais?.let { Text(it, color = Terracota, fontSize = 12.sp) } },
-                        modifier = Modifier.fillMaxWidth().menuAnchor(),
-                        shape = RoundedCornerShape(12.dp)
-                    )
-                    ExposedDropdownMenu(expanded = expandirPais, onDismissRequest = { expandirPais = false }) {
+                OutlinedTextField(
+                    value = pais,
+                    onValueChange = {},
+                    readOnly = true,
+                    label = { Text("Pais") },
+                    trailingIcon = {
+                        TextButton(onClick = { expandirPais = !expandirPais }) {
+                            Text("v", color = CafeTierra)
+                        }
+                    },
+                    isError = errorPais != null,
+                    supportingText = { errorPais?.let { Text(it, color = Terracota, fontSize = 12.sp) } },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp)
+                )
+                if (expandirPais) {
+                    Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(8.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
                         paises.forEach { p ->
-                            DropdownMenuItem(
-                                text = { Text(p) },
-                                onClick = { pais = p; errorPais = null; expandirPais = false }
-                            )
+                            TextButton(onClick = { pais = p; errorPais = null; expandirPais = false }, modifier = Modifier.fillMaxWidth()) {
+                                Text(p, color = CafeTierra, modifier = Modifier.fillMaxWidth())
+                            }
                         }
                     }
                 }
