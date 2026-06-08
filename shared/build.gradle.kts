@@ -49,6 +49,8 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation("org.jetbrains.androidx.navigation:navigation-compose:2.7.0-alpha07")
+            implementation("androidx.datastore:datastore-preferences-core:1.1.1")
             implementation("io.ktor:ktor-client-core:2.3.10")
             implementation("io.ktor:ktor-client-content-negotiation:2.3.10")
             implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.10")

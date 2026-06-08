@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.raicesvivas.androidApp-mergeDebugResources-34:/values-v30/values-v30.xml",
+            "outputFile": "com.example.raicesvivas.androidApp-mergeDebugResources-40:/values-v30/values-v30.xml",
             "map": [
                 {
                     "source": "C:\\Users\\xelad\\.gradle\\caches\\9.1.0\\transforms\\7067bd67cd83db3f884f08237d90d31e\\workspace\\transformed\\material3\\res\\values-v30\\values-v30.xml",

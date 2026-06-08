@@ -1,12 +1,17 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:2:1-24:12
-INJECTED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:2:1-24:12
-INJECTED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:2:1-24:12
-INJECTED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:2:1-24:12
+ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:2:1-23:12
+INJECTED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:2:1-23:12
+INJECTED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:2:1-23:12
+INJECTED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:2:1-23:12
 MERGED from [:shared] C:\Users\xelad\AndroidStudioProjects\RaicesVivas\shared\build\intermediates\merged_manifest\androidMain\processAndroidMainManifest\AndroidManifest.xml:2:1-7:12
 MERGED from [org.jetbrains.compose.components:components-resources-android:1.11.1] C:\Users\xelad\.gradle\caches\9.1.0\transforms\3ee635554e80ed63b40e8a17e2787fd3\workspace\transformed\library-release\AndroidManifest.xml:2:1-16:12
 MERGED from [androidx.compose.material3:material3-android:1.5.0-alpha17] C:\Users\xelad\.gradle\caches\9.1.0\transforms\7067bd67cd83db3f884f08237d90d31e\workspace\transformed\material3\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-common:2.7.7] C:\Users\xelad\.gradle\caches\9.1.0\transforms\3227860fc884731b1870be66355587a4\workspace\transformed\navigation-common-2.7.7\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-runtime:2.7.7] C:\Users\xelad\.gradle\caches\9.1.0\transforms\c572b0bda6c4b9bc227f8b15b088a08f\workspace\transformed\navigation-runtime-2.7.7\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.navigation:navigation-common-ktx:2.7.7] C:\Users\xelad\.gradle\caches\9.1.0\transforms\426a7e1350151baf602c657aadfab70b\workspace\transformed\navigation-common-ktx-2.7.7\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.7.7] C:\Users\xelad\.gradle\caches\9.1.0\transforms\5c24d1238678a54f230c49611347fccc\workspace\transformed\navigation-runtime-ktx-2.7.7\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.navigation:navigation-compose:2.7.7] C:\Users\xelad\.gradle\caches\9.1.0\transforms\4cfdae43f07146d16f2b5d5746f6267b\workspace\transformed\navigation-compose-2.7.7\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.material:material-ripple-android:1.11.0-rc01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\63a71155de222b560743c59fbacbb95d\workspace\transformed\material-ripple\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.animation:animation-core-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\646d499abaca2ad0f5cef0a577a46797\workspace\transformed\animation-core\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.animation:animation-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\09171e105f819268e844201e81d7377f\workspace\transformed\animation\AndroidManifest.xml:2:1-7:12
@@ -22,8 +27,6 @@ MERGED from [androidx.compose.ui:ui-tooling-preview-android:1.11.2] C:\Users\xel
 MERGED from [androidx.compose.ui:ui-tooling-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\30807f93a948a2d1a77d1183c8f26b1f\workspace\transformed\ui-tooling\AndroidManifest.xml:17:1-28:12
 MERGED from [androidx.navigationevent:navigationevent-android:1.0.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\9e87ed52c379a8201244bd56dfe6ff5f\workspace\transformed\navigationevent\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.navigationevent:navigationevent-compose-android:1.0.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\1435da6bbf85648fc2d0d42b34f4ae35\workspace\transformed\navigationevent-compose\AndroidManifest.xml:2:1-7:12
-MERGED from [androidx.compose.runtime:runtime-annotation-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\f1c9694400edac57942591fce57dd964\workspace\transformed\runtime-annotation\AndroidManifest.xml:2:1-7:12
-MERGED from [androidx.compose.runtime:runtime-retain-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\7ac24470d1971ec7a515dc7bac1b8d75\workspace\transformed\runtime-retain\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.graphics:graphics-shapes-android:1.1.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\0ccc98948c376de92604147f072670ae\workspace\transformed\graphics-shapes\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\da299e3819439387b75d5ccbd29b36c7\workspace\transformed\customview-poolingcontainer-1.0.0\AndroidManifest.xml:17:1-23:12
 MERGED from [androidx.core:core-ktx:1.18.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\829ecfe6e5961cb1ed26851b75ebf2f9\workspace\transformed\core-ktx-1.18.0\AndroidManifest.xml:2:1-7:12
@@ -40,17 +43,19 @@ MERGED from [androidx.core:core:1.18.0] C:\Users\xelad\.gradle\caches\9.1.0\tran
 MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\677f91f4b6a5ed05906c37d0b7b64c06\workspace\transformed\lifecycle-livedata-core-ktx-2.11.0-beta01\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\beeb56157669fe7fac1bd7e8bdad045a\workspace\transformed\lifecycle-livedata-2.11.0-beta01\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-process:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\21dab54c81730e76aee18bde9bdad096\workspace\transformed\lifecycle-process-2.11.0-beta01\AndroidManifest.xml:17:1-35:12
-MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\a9f6e38907eb84646854830059052776\workspace\transformed\lifecycle-runtime-ktx\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\9092c8b66afb4d72161e7fd05f8a9f55\workspace\transformed\lifecycle-livedata-core-2.11.0-beta01\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\597384adee875d534d1329ea0de3fd69\workspace\transformed\lifecycle-runtime\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\f0f70b3827b9e8ae85fa55a08cf4a96f\workspace\transformed\lifecycle-viewmodel-ktx-2.11.0-beta01\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\a9f6e38907eb84646854830059052776\workspace\transformed\lifecycle-runtime-ktx\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\e6c68f85ce750412e01ae6688bd13517\workspace\transformed\lifecycle-viewmodel-2.11.0-beta01\AndroidManifest.xml:2:1-5:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\8e1147bc24db61a1400c282ba9c9bb00\workspace\transformed\lifecycle-viewmodel\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\597384adee875d534d1329ea0de3fd69\workspace\transformed\lifecycle-runtime\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\f0f70b3827b9e8ae85fa55a08cf4a96f\workspace\transformed\lifecycle-viewmodel-ktx-2.11.0-beta01\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\2658f573a0c98f1bcd1a39e86d2067f1\workspace\transformed\lifecycle-viewmodel-savedstate\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.savedstate:savedstate-android:1.4.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\31bd8b6e544ed1318e9a962116c0c6a7\workspace\transformed\savedstate\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.savedstate:savedstate-ktx:1.4.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\e3a708b3c7661b8f6bbd4614d4bcb3e1\workspace\transformed\savedstate-ktx-1.4.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.savedstate:savedstate-compose-android:1.4.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\8cdb522913138501203a2f7c2b5678d4\workspace\transformed\savedstate-compose\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.runtime:runtime-annotation-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\f1c9694400edac57942591fce57dd964\workspace\transformed\runtime-annotation\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.runtime:runtime-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\560dc0640bb1194fc35d9f30de6e72b7\workspace\transformed\runtime\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.compose.runtime:runtime-retain-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\7ac24470d1971ec7a515dc7bac1b8d75\workspace\transformed\runtime-retain\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.runtime:runtime-saveable-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\fca94b39378c6e37247a9a271271d13d\workspace\transformed\runtime-saveable\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.lifecycle:lifecycle-runtime-compose-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\ea38b3d2ccbfe15df1c7a86c34ab72c0\workspace\transformed\lifecycle-runtime-compose\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\3ceccf67b829c532b3914cb222a5bd13\workspace\transformed\lifecycle-viewmodel-compose\AndroidManifest.xml:2:1-7:12
@@ -58,6 +63,7 @@ MERGED from [androidx.compose.ui:ui-android:1.11.2] C:\Users\xelad\.gradle\cache
 MERGED from [androidx.activity:activity-ktx:1.13.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\01f4b8d2be2f23ba844ea655a6142b97\workspace\transformed\activity-ktx-1.13.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.activity:activity:1.13.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\b40dbfd40f3d5cf75d578392122b59ab\workspace\transformed\activity-1.13.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.activity:activity-compose:1.13.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\706cf5e01252743a971d7798642816b6\workspace\transformed\activity-compose-1.13.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.datastore:datastore-core-android:1.1.1] C:\Users\xelad\.gradle\caches\9.1.0\transforms\60cbc0b26cac14f429688610ba51564e\workspace\transformed\datastore-core-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.core:core-viewtree:1.0.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\b937d612a36e20bcb272916cebaec0a5\workspace\transformed\core-viewtree-1.0.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\8e2adf17d07efbddb4618a6fc4ef410b\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:17:1-55:12
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\xelad\.gradle\caches\9.1.0\transforms\ba52a36a96e8e3c01f25c24dfd78cb8f\workspace\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
@@ -82,8 +88,8 @@ ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\
 	android:name
 		ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:4:22-64
 application
-ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:6:5-22:19
-INJECTED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:6:5-22:19
+ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:6:5-21:19
+INJECTED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:6:5-21:19
 MERGED from [org.jetbrains.compose.components:components-resources-android:1.11.1] C:\Users\xelad\.gradle\caches\9.1.0\transforms\3ee635554e80ed63b40e8a17e2787fd3\workspace\transformed\library-release\AndroidManifest.xml:7:5-14:19
 MERGED from [org.jetbrains.compose.components:components-resources-android:1.11.1] C:\Users\xelad\.gradle\caches\9.1.0\transforms\3ee635554e80ed63b40e8a17e2787fd3\workspace\transformed\library-release\AndroidManifest.xml:7:5-14:19
 MERGED from [androidx.compose.ui:ui-tooling-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\30807f93a948a2d1a77d1183c8f26b1f\workspace\transformed\ui-tooling\AndroidManifest.xml:22:5-26:19
@@ -109,9 +115,9 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\xelad\.gradle\cach
 	android:supportsRtl
 		ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:11:9-35
 	android:label
-		ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:9:9-41
+		ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:10:9-41
 	android:roundIcon
-		ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:10:9-54
+		ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:9:9-54
 	android:icon
 		ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:8:9-43
 	android:allowBackup
@@ -119,21 +125,21 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\xelad\.gradle\cach
 	android:theme
 		ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:12:9-72
 activity#com.example.raicesvivas.MainActivity
-ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:13:9-21:20
+ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:13:9-20:20
 	android:exported
 		ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:14:13-36
 	android:name
 		ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:15:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:16:13-20:29
+ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:16:13-19:29
 action#android.intent.action.MAIN
 ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:17:17-69
 	android:name
 		ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:17:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:19:17-77
+ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:18:17-77
 	android:name
-		ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:19:27-74
+		ADDED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml:18:27-74
 uses-sdk
 INJECTED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\xelad\AndroidStudioProjects\RaicesVivas\androidApp\src\main\AndroidManifest.xml
@@ -144,6 +150,16 @@ MERGED from [org.jetbrains.compose.components:components-resources-android:1.11.
 MERGED from [org.jetbrains.compose.components:components-resources-android:1.11.1] C:\Users\xelad\.gradle\caches\9.1.0\transforms\3ee635554e80ed63b40e8a17e2787fd3\workspace\transformed\library-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material3:material3-android:1.5.0-alpha17] C:\Users\xelad\.gradle\caches\9.1.0\transforms\7067bd67cd83db3f884f08237d90d31e\workspace\transformed\material3\AndroidManifest.xml:20:5-44
 MERGED from [androidx.compose.material3:material3-android:1.5.0-alpha17] C:\Users\xelad\.gradle\caches\9.1.0\transforms\7067bd67cd83db3f884f08237d90d31e\workspace\transformed\material3\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-common:2.7.7] C:\Users\xelad\.gradle\caches\9.1.0\transforms\3227860fc884731b1870be66355587a4\workspace\transformed\navigation-common-2.7.7\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-common:2.7.7] C:\Users\xelad\.gradle\caches\9.1.0\transforms\3227860fc884731b1870be66355587a4\workspace\transformed\navigation-common-2.7.7\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime:2.7.7] C:\Users\xelad\.gradle\caches\9.1.0\transforms\c572b0bda6c4b9bc227f8b15b088a08f\workspace\transformed\navigation-runtime-2.7.7\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-runtime:2.7.7] C:\Users\xelad\.gradle\caches\9.1.0\transforms\c572b0bda6c4b9bc227f8b15b088a08f\workspace\transformed\navigation-runtime-2.7.7\AndroidManifest.xml:20:5-44
+MERGED from [androidx.navigation:navigation-common-ktx:2.7.7] C:\Users\xelad\.gradle\caches\9.1.0\transforms\426a7e1350151baf602c657aadfab70b\workspace\transformed\navigation-common-ktx-2.7.7\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-common-ktx:2.7.7] C:\Users\xelad\.gradle\caches\9.1.0\transforms\426a7e1350151baf602c657aadfab70b\workspace\transformed\navigation-common-ktx-2.7.7\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.7.7] C:\Users\xelad\.gradle\caches\9.1.0\transforms\5c24d1238678a54f230c49611347fccc\workspace\transformed\navigation-runtime-ktx-2.7.7\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-runtime-ktx:2.7.7] C:\Users\xelad\.gradle\caches\9.1.0\transforms\5c24d1238678a54f230c49611347fccc\workspace\transformed\navigation-runtime-ktx-2.7.7\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-compose:2.7.7] C:\Users\xelad\.gradle\caches\9.1.0\transforms\4cfdae43f07146d16f2b5d5746f6267b\workspace\transformed\navigation-compose-2.7.7\AndroidManifest.xml:5:5-44
+MERGED from [androidx.navigation:navigation-compose:2.7.7] C:\Users\xelad\.gradle\caches\9.1.0\transforms\4cfdae43f07146d16f2b5d5746f6267b\workspace\transformed\navigation-compose-2.7.7\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-ripple-android:1.11.0-rc01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\63a71155de222b560743c59fbacbb95d\workspace\transformed\material-ripple\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-ripple-android:1.11.0-rc01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\63a71155de222b560743c59fbacbb95d\workspace\transformed\material-ripple\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.animation:animation-core-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\646d499abaca2ad0f5cef0a577a46797\workspace\transformed\animation-core\AndroidManifest.xml:5:5-44
@@ -174,10 +190,6 @@ MERGED from [androidx.navigationevent:navigationevent-android:1.0.0] C:\Users\xe
 MERGED from [androidx.navigationevent:navigationevent-android:1.0.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\9e87ed52c379a8201244bd56dfe6ff5f\workspace\transformed\navigationevent\AndroidManifest.xml:5:5-44
 MERGED from [androidx.navigationevent:navigationevent-compose-android:1.0.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\1435da6bbf85648fc2d0d42b34f4ae35\workspace\transformed\navigationevent-compose\AndroidManifest.xml:5:5-44
 MERGED from [androidx.navigationevent:navigationevent-compose-android:1.0.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\1435da6bbf85648fc2d0d42b34f4ae35\workspace\transformed\navigationevent-compose\AndroidManifest.xml:5:5-44
-MERGED from [androidx.compose.runtime:runtime-annotation-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\f1c9694400edac57942591fce57dd964\workspace\transformed\runtime-annotation\AndroidManifest.xml:5:5-44
-MERGED from [androidx.compose.runtime:runtime-annotation-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\f1c9694400edac57942591fce57dd964\workspace\transformed\runtime-annotation\AndroidManifest.xml:5:5-44
-MERGED from [androidx.compose.runtime:runtime-retain-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\7ac24470d1971ec7a515dc7bac1b8d75\workspace\transformed\runtime-retain\AndroidManifest.xml:5:5-44
-MERGED from [androidx.compose.runtime:runtime-retain-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\7ac24470d1971ec7a515dc7bac1b8d75\workspace\transformed\runtime-retain\AndroidManifest.xml:5:5-44
 MERGED from [androidx.graphics:graphics-shapes-android:1.1.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\0ccc98948c376de92604147f072670ae\workspace\transformed\graphics-shapes\AndroidManifest.xml:5:5-44
 MERGED from [androidx.graphics:graphics-shapes-android:1.1.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\0ccc98948c376de92604147f072670ae\workspace\transformed\graphics-shapes\AndroidManifest.xml:5:5-44
 MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\da299e3819439387b75d5ccbd29b36c7\workspace\transformed\customview-poolingcontainer-1.0.0\AndroidManifest.xml:20:5-21:38
@@ -210,18 +222,18 @@ MERGED from [androidx.lifecycle:lifecycle-livedata:2.11.0-beta01] C:\Users\xelad
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\beeb56157669fe7fac1bd7e8bdad045a\workspace\transformed\lifecycle-livedata-2.11.0-beta01\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-process:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\21dab54c81730e76aee18bde9bdad096\workspace\transformed\lifecycle-process-2.11.0-beta01\AndroidManifest.xml:21:5-44
 MERGED from [androidx.lifecycle:lifecycle-process:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\21dab54c81730e76aee18bde9bdad096\workspace\transformed\lifecycle-process-2.11.0-beta01\AndroidManifest.xml:21:5-44
-MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\a9f6e38907eb84646854830059052776\workspace\transformed\lifecycle-runtime-ktx\AndroidManifest.xml:5:5-44
-MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\a9f6e38907eb84646854830059052776\workspace\transformed\lifecycle-runtime-ktx\AndroidManifest.xml:5:5-44
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\9092c8b66afb4d72161e7fd05f8a9f55\workspace\transformed\lifecycle-livedata-core-2.11.0-beta01\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\9092c8b66afb4d72161e7fd05f8a9f55\workspace\transformed\lifecycle-livedata-core-2.11.0-beta01\AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\597384adee875d534d1329ea0de3fd69\workspace\transformed\lifecycle-runtime\AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\597384adee875d534d1329ea0de3fd69\workspace\transformed\lifecycle-runtime\AndroidManifest.xml:20:5-44
-MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\f0f70b3827b9e8ae85fa55a08cf4a96f\workspace\transformed\lifecycle-viewmodel-ktx-2.11.0-beta01\AndroidManifest.xml:5:5-44
-MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\f0f70b3827b9e8ae85fa55a08cf4a96f\workspace\transformed\lifecycle-viewmodel-ktx-2.11.0-beta01\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\a9f6e38907eb84646854830059052776\workspace\transformed\lifecycle-runtime-ktx\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\a9f6e38907eb84646854830059052776\workspace\transformed\lifecycle-runtime-ktx\AndroidManifest.xml:5:5-44
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\e6c68f85ce750412e01ae6688bd13517\workspace\transformed\lifecycle-viewmodel-2.11.0-beta01\AndroidManifest.xml:4:5-43
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\e6c68f85ce750412e01ae6688bd13517\workspace\transformed\lifecycle-viewmodel-2.11.0-beta01\AndroidManifest.xml:4:5-43
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\8e1147bc24db61a1400c282ba9c9bb00\workspace\transformed\lifecycle-viewmodel\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\8e1147bc24db61a1400c282ba9c9bb00\workspace\transformed\lifecycle-viewmodel\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\597384adee875d534d1329ea0de3fd69\workspace\transformed\lifecycle-runtime\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\597384adee875d534d1329ea0de3fd69\workspace\transformed\lifecycle-runtime\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\f0f70b3827b9e8ae85fa55a08cf4a96f\workspace\transformed\lifecycle-viewmodel-ktx-2.11.0-beta01\AndroidManifest.xml:5:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-ktx:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\f0f70b3827b9e8ae85fa55a08cf4a96f\workspace\transformed\lifecycle-viewmodel-ktx-2.11.0-beta01\AndroidManifest.xml:5:5-44
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\2658f573a0c98f1bcd1a39e86d2067f1\workspace\transformed\lifecycle-viewmodel-savedstate\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\2658f573a0c98f1bcd1a39e86d2067f1\workspace\transformed\lifecycle-viewmodel-savedstate\AndroidManifest.xml:20:5-44
 MERGED from [androidx.savedstate:savedstate-android:1.4.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\31bd8b6e544ed1318e9a962116c0c6a7\workspace\transformed\savedstate\AndroidManifest.xml:20:5-44
@@ -230,8 +242,12 @@ MERGED from [androidx.savedstate:savedstate-ktx:1.4.0] C:\Users\xelad\.gradle\ca
 MERGED from [androidx.savedstate:savedstate-ktx:1.4.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\e3a708b3c7661b8f6bbd4614d4bcb3e1\workspace\transformed\savedstate-ktx-1.4.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.savedstate:savedstate-compose-android:1.4.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\8cdb522913138501203a2f7c2b5678d4\workspace\transformed\savedstate-compose\AndroidManifest.xml:5:5-44
 MERGED from [androidx.savedstate:savedstate-compose-android:1.4.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\8cdb522913138501203a2f7c2b5678d4\workspace\transformed\savedstate-compose\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-annotation-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\f1c9694400edac57942591fce57dd964\workspace\transformed\runtime-annotation\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-annotation-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\f1c9694400edac57942591fce57dd964\workspace\transformed\runtime-annotation\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.runtime:runtime-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\560dc0640bb1194fc35d9f30de6e72b7\workspace\transformed\runtime\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.runtime:runtime-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\560dc0640bb1194fc35d9f30de6e72b7\workspace\transformed\runtime\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-retain-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\7ac24470d1971ec7a515dc7bac1b8d75\workspace\transformed\runtime-retain\AndroidManifest.xml:5:5-44
+MERGED from [androidx.compose.runtime:runtime-retain-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\7ac24470d1971ec7a515dc7bac1b8d75\workspace\transformed\runtime-retain\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.runtime:runtime-saveable-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\fca94b39378c6e37247a9a271271d13d\workspace\transformed\runtime-saveable\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.runtime:runtime-saveable-android:1.11.2] C:\Users\xelad\.gradle\caches\9.1.0\transforms\fca94b39378c6e37247a9a271271d13d\workspace\transformed\runtime-saveable\AndroidManifest.xml:5:5-44
 MERGED from [androidx.lifecycle:lifecycle-runtime-compose-android:2.11.0-beta01] C:\Users\xelad\.gradle\caches\9.1.0\transforms\ea38b3d2ccbfe15df1c7a86c34ab72c0\workspace\transformed\lifecycle-runtime-compose\AndroidManifest.xml:5:5-44
@@ -246,6 +262,8 @@ MERGED from [androidx.activity:activity:1.13.0] C:\Users\xelad\.gradle\caches\9.
 MERGED from [androidx.activity:activity:1.13.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\b40dbfd40f3d5cf75d578392122b59ab\workspace\transformed\activity-1.13.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.activity:activity-compose:1.13.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\706cf5e01252743a971d7798642816b6\workspace\transformed\activity-compose-1.13.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.activity:activity-compose:1.13.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\706cf5e01252743a971d7798642816b6\workspace\transformed\activity-compose-1.13.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.1.1] C:\Users\xelad\.gradle\caches\9.1.0\transforms\60cbc0b26cac14f429688610ba51564e\workspace\transformed\datastore-core-release\AndroidManifest.xml:5:5-44
+MERGED from [androidx.datastore:datastore-core-android:1.1.1] C:\Users\xelad\.gradle\caches\9.1.0\transforms\60cbc0b26cac14f429688610ba51564e\workspace\transformed\datastore-core-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.core:core-viewtree:1.0.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\b937d612a36e20bcb272916cebaec0a5\workspace\transformed\core-viewtree-1.0.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.core:core-viewtree:1.0.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\b937d612a36e20bcb272916cebaec0a5\workspace\transformed\core-viewtree-1.0.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\xelad\.gradle\caches\9.1.0\transforms\8e2adf17d07efbddb4618a6fc4ef410b\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:21:5-44
