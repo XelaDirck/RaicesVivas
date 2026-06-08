@@ -2,6 +2,7 @@ package com.example.raicesvivas
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -9,17 +10,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
-import androidx.compose.foundation.Image
-import org.jetbrains.compose.resources.painterResource
-import raicesvivas.shared.generated.resources.Res
-import raicesvivas.shared.generated.resources.logo_raicesvivas
 
 enum class Pantalla {
-    SPLASH, ONBOARDING, LOGIN, REGISTRO, SELECCION_LENGUA
+    SPLASH, ONBOARDING, LOGIN, ENTRAR, REGISTRO, SELECCION_LENGUA, HOME
 }
 
 @Composable
@@ -27,10 +25,18 @@ fun App() {
     RaicesTheme {
         var pantalla by remember { mutableStateOf(Pantalla.SPLASH) }
         var onboardingVisto by remember { mutableStateOf(false) }
+        var sesionActiva by remember { mutableStateOf(false) }
+        var nombreUsuario by remember { mutableStateOf("") }
+
         LaunchedEffect(Unit) {
             kotlinx.coroutines.delay(2000)
-            pantalla = if (!onboardingVisto) Pantalla.ONBOARDING else Pantalla.LOGIN
+            pantalla = when {
+                sesionActiva -> Pantalla.HOME
+                !onboardingVisto -> Pantalla.ONBOARDING
+                else -> Pantalla.LOGIN
+            }
         }
+
         when (pantalla) {
             Pantalla.SPLASH -> PantallaSplash()
             Pantalla.ONBOARDING -> PantallaOnboarding {
@@ -39,15 +45,30 @@ fun App() {
             }
             Pantalla.LOGIN -> PantallaLogin(
                 onCrearCuenta = { pantalla = Pantalla.REGISTRO },
-                onEntrar = { pantalla = Pantalla.SELECCION_LENGUA },
-                onSinCuenta = { pantalla = Pantalla.SELECCION_LENGUA }
+                onEntrar = { pantalla = Pantalla.ENTRAR }
+            )
+            Pantalla.ENTRAR -> PantallaEntrar(
+                onLoginExitoso = { nombre ->
+                    nombreUsuario = nombre
+                    sesionActiva = true
+                    pantalla = Pantalla.HOME
+                },
+                onVolver = { pantalla = Pantalla.LOGIN }
             )
             Pantalla.REGISTRO -> PantallaRegistro(
-                onRegistrado = { pantalla = Pantalla.SELECCION_LENGUA },
+                onRegistrado = { nombre ->
+                    nombreUsuario = nombre
+                    sesionActiva = true
+                    pantalla = Pantalla.HOME
+                },
                 onVolver = { pantalla = Pantalla.LOGIN }
             )
             Pantalla.SELECCION_LENGUA -> PantallaSeleccionLengua(
-                onLenguaSeleccionada = { }
+                onLenguaSeleccionada = { pantalla = Pantalla.HOME }
+            )
+            Pantalla.HOME -> PantallaHome(
+                nombreUsuario = nombreUsuario,
+                onSeleccionLengua = { pantalla = Pantalla.SELECCION_LENGUA }
             )
         }
     }
@@ -57,11 +78,6 @@ fun App() {
 fun PantallaSplash() {
     Box(modifier = Modifier.fillMaxSize().background(BeigeCalido), contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Image(
-                painter = painterResource(Res.drawable.logo_raicesvivas),
-                contentDescription = "Logo RaicesVivas",
-                modifier = Modifier.size(180.dp)
-            )
             Text("Raices Vivas", fontSize = 36.sp, fontWeight = FontWeight.Bold, color = CafeTierra)
             Spacer(Modifier.height(8.dp))
             Text("Preservando voces,\nconectando generaciones.", fontSize = 14.sp, color = Turquesa, textAlign = TextAlign.Center)
@@ -114,7 +130,7 @@ fun PantallaOnboarding(onContinuar: () -> Unit) {
 }
 
 @Composable
-fun PantallaLogin(onCrearCuenta: () -> Unit, onEntrar: () -> Unit, onSinCuenta: () -> Unit) {
+fun PantallaLogin(onCrearCuenta: () -> Unit, onEntrar: () -> Unit) {
     Box(modifier = Modifier.fillMaxSize().background(BeigeCalido)) {
         Column(
             modifier = Modifier.fillMaxSize().padding(32.dp),
@@ -142,20 +158,66 @@ fun PantallaLogin(onCrearCuenta: () -> Unit, onEntrar: () -> Unit, onSinCuenta: 
             OutlinedButton(onClick = onEntrar, shape = RoundedCornerShape(12.dp), modifier = Modifier.fillMaxWidth().height(52.dp), colors = ButtonDefaults.outlinedButtonColors(contentColor = CafeTierra)) {
                 Text("Entrar", fontSize = 16.sp)
             }
-            Spacer(Modifier.height(16.dp))
-            Text("o continua sin cuenta", fontSize = 13.sp, color = GrisSuave)
-            Spacer(Modifier.height(12.dp))
-            OutlinedButton(onClick = onSinCuenta, shape = RoundedCornerShape(12.dp), modifier = Modifier.fillMaxWidth().height(52.dp), colors = ButtonDefaults.outlinedButtonColors(contentColor = CafeTierra)) {
-                Text("Entrar sin cuenta", fontSize = 16.sp)
-            }
-            Spacer(Modifier.height(12.dp))
-            Text("Algunas funciones estaran limitadas", fontSize = 12.sp, color = GrisSuave)
         }
     }
 }
 
 @Composable
-fun PantallaRegistro(onRegistrado: () -> Unit, onVolver: () -> Unit) {
+fun PantallaEntrar(onLoginExitoso: (String) -> Unit, onVolver: () -> Unit) {
+    val repo = remember { RegistroRepository() }
+    val scope = rememberCoroutineScope()
+    var correo by remember { mutableStateOf("") }
+    var contrasena by remember { mutableStateOf("") }
+    var mensaje by remember { mutableStateOf("") }
+    var cargando by remember { mutableStateOf(false) }
+
+    Box(modifier = Modifier.fillMaxSize().background(BeigeCalido)) {
+        Column(modifier = Modifier.fillMaxSize().padding(32.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            Spacer(Modifier.height(40.dp))
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                TextButton(onClick = onVolver) { Text("<", color = CafeTierra, fontSize = 20.sp) }
+                Text("Entrar", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = CafeTierra)
+            }
+            Spacer(Modifier.height(32.dp))
+            OutlinedTextField(value = correo, onValueChange = { correo = it }, label = { Text("Correo electronico") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
+            Spacer(Modifier.height(12.dp))
+            OutlinedTextField(value = contrasena, onValueChange = { contrasena = it }, label = { Text("Contrasena") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), visualTransformation = PasswordVisualTransformation())
+            Spacer(Modifier.height(16.dp))
+            if (mensaje.isNotEmpty()) Text(mensaje, color = Terracota, fontSize = 13.sp, textAlign = TextAlign.Center)
+            Spacer(Modifier.height(8.dp))
+            Button(
+                onClick = {
+                    scope.launch {
+                        cargando = true
+                        mensaje = try {
+                            val resultado = repo.login(correo, contrasena)
+                            if (resultado.contains("exitoso", true)) {
+                                val nombre = resultado.substringAfter("Bienvenido").trim()
+                                onLoginExitoso(nombre)
+                                ""
+                            } else {
+                                resultado
+                            }
+                        } catch (e: Exception) { "Error: ${e.message}" }
+                        cargando = false
+                    }
+                },
+                enabled = !cargando,
+                colors = ButtonDefaults.buttonColors(containerColor = Verde),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth().height(52.dp)
+            ) {
+                if (cargando) CircularProgressIndicator(Modifier.size(20.dp), color = Color.White, strokeWidth = 2.dp)
+                else Text("Entrar", color = Color.White, fontSize = 16.sp)
+            }
+            Spacer(Modifier.height(12.dp))
+            TextButton(onClick = onVolver) { Text("No tengo cuenta, crear una", color = Turquesa) }
+        }
+    }
+}
+
+@Composable
+fun PantallaRegistro(onRegistrado: (String) -> Unit, onVolver: () -> Unit) {
     val repo = remember { RegistroRepository() }
     val scope = rememberCoroutineScope()
     var nombreCompleto by remember { mutableStateOf("") }
@@ -168,46 +230,51 @@ fun PantallaRegistro(onRegistrado: () -> Unit, onVolver: () -> Unit) {
     var cargando by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize().background(BeigeCalido)) {
-        Column(modifier = Modifier.fillMaxSize().padding(32.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Spacer(Modifier.height(40.dp))
-            Text("Crear cuenta", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = CafeTierra)
-            Spacer(Modifier.height(24.dp))
-            OutlinedTextField(value = nombreCompleto, onValueChange = { nombreCompleto = it }, label = { Text("Nombre completo") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
-            Spacer(Modifier.height(8.dp))
-            OutlinedTextField(value = nombreUsuario, onValueChange = { nombreUsuario = it }, label = { Text("Nombre de usuario") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
-            Spacer(Modifier.height(8.dp))
-            OutlinedTextField(value = correo, onValueChange = { correo = it }, label = { Text("Correo electronico") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
-            Spacer(Modifier.height(8.dp))
-            OutlinedTextField(value = contrasena, onValueChange = { contrasena = it }, label = { Text("Contrasena") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
-            Spacer(Modifier.height(8.dp))
-            OutlinedTextField(value = edad, onValueChange = { edad = it }, label = { Text("Edad") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
-            Spacer(Modifier.height(8.dp))
-            OutlinedTextField(value = pais, onValueChange = { pais = it }, label = { Text("Pais") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
-            Spacer(Modifier.height(16.dp))
-            if (mensaje.isNotEmpty()) Text(mensaje, color = if (mensaje.contains("error", true)) Terracota else Verde, fontSize = 13.sp)
-            Spacer(Modifier.height(8.dp))
-            Button(
-                onClick = {
-                    scope.launch {
-                        cargando = true
-                        mensaje = try {
-                            repo.registrar(nombreCompleto, nombreUsuario, correo, contrasena, edad.toIntOrNull() ?: 0, pais)
-                            onRegistrado()
-                            ""
-                        } catch (e: Exception) { "Error: ${e.message}" }
-                        cargando = false
-                    }
-                },
-                enabled = !cargando,
-                colors = ButtonDefaults.buttonColors(containerColor = Verde),
-                shape = RoundedCornerShape(12.dp),
-                modifier = Modifier.fillMaxWidth().height(52.dp)
-            ) {
-                if (cargando) CircularProgressIndicator(Modifier.size(20.dp), color = Color.White, strokeWidth = 2.dp)
-                else Text("Crear cuenta", color = Color.White, fontSize = 16.sp)
+        LazyColumn(modifier = Modifier.fillMaxSize().padding(32.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            item {
+                Spacer(Modifier.height(40.dp))
+                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    TextButton(onClick = onVolver) { Text("<", color = CafeTierra, fontSize = 20.sp) }
+                    Text("Crear cuenta", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = CafeTierra)
+                }
+                Spacer(Modifier.height(24.dp))
+                OutlinedTextField(value = nombreCompleto, onValueChange = { nombreCompleto = it }, label = { Text("Nombre completo") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
+                Spacer(Modifier.height(8.dp))
+                OutlinedTextField(value = nombreUsuario, onValueChange = { nombreUsuario = it }, label = { Text("Nombre de usuario") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
+                Spacer(Modifier.height(8.dp))
+                OutlinedTextField(value = correo, onValueChange = { correo = it }, label = { Text("Correo electronico") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
+                Spacer(Modifier.height(8.dp))
+                OutlinedTextField(value = contrasena, onValueChange = { contrasena = it }, label = { Text("Contrasena") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), visualTransformation = PasswordVisualTransformation())
+                Spacer(Modifier.height(8.dp))
+                OutlinedTextField(value = edad, onValueChange = { edad = it }, label = { Text("Edad") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
+                Spacer(Modifier.height(8.dp))
+                OutlinedTextField(value = pais, onValueChange = { pais = it }, label = { Text("Pais") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
+                Spacer(Modifier.height(16.dp))
+                if (mensaje.isNotEmpty()) Text(mensaje, color = if (mensaje.contains("error", true)) Terracota else Verde, fontSize = 13.sp)
+                Spacer(Modifier.height(8.dp))
+                Button(
+                    onClick = {
+                        scope.launch {
+                            cargando = true
+                            mensaje = try {
+                                repo.registrar(nombreCompleto, nombreUsuario, correo, contrasena, edad.toIntOrNull() ?: 0, pais)
+                                onRegistrado(nombreUsuario)
+                                ""
+                            } catch (e: Exception) { "Error: ${e.message}" }
+                            cargando = false
+                        }
+                    },
+                    enabled = !cargando,
+                    colors = ButtonDefaults.buttonColors(containerColor = Verde),
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier.fillMaxWidth().height(52.dp)
+                ) {
+                    if (cargando) CircularProgressIndicator(Modifier.size(20.dp), color = Color.White, strokeWidth = 2.dp)
+                    else Text("Crear cuenta", color = Color.White, fontSize = 16.sp)
+                }
+                Spacer(Modifier.height(12.dp))
+                TextButton(onClick = onVolver) { Text("Ya tengo cuenta", color = Turquesa) }
             }
-            Spacer(Modifier.height(12.dp))
-            TextButton(onClick = onVolver) { Text("Ya tengo cuenta", color = Turquesa) }
         }
     }
 }
@@ -223,13 +290,16 @@ fun PantallaSeleccionLengua(onLenguaSeleccionada: (String) -> Unit) {
         "Purepecha" to "Michoacan"
     )
     Box(modifier = Modifier.fillMaxSize().background(BeigeCalido)) {
-        Column(modifier = Modifier.fillMaxSize().padding(24.dp)) {
-            Spacer(Modifier.height(40.dp))
-            Text("Elige tu lengua", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = CafeTierra, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
-            Spacer(Modifier.height(8.dp))
-            Text("Descarga el paquete para usarlo sin conexion.", fontSize = 14.sp, color = CafeTierra.copy(alpha = 0.7f), textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
-            Spacer(Modifier.height(24.dp))
-            lenguas.forEach { (nombre, region) ->
+        LazyColumn(modifier = Modifier.fillMaxSize().padding(24.dp)) {
+            item {
+                Spacer(Modifier.height(40.dp))
+                Text("Elige tu lengua", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = CafeTierra, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+                Spacer(Modifier.height(8.dp))
+                Text("Descarga el paquete para usarlo sin conexion.", fontSize = 14.sp, color = CafeTierra.copy(alpha = 0.7f), textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+                Spacer(Modifier.height(24.dp))
+            }
+            items(lenguas.size) { index ->
+                val (nombre, region) = lenguas[index]
                 Card(
                     onClick = { onLenguaSeleccionada(nombre) },
                     modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp),
@@ -249,12 +319,93 @@ fun PantallaSeleccionLengua(onLenguaSeleccionada: (String) -> Unit) {
                     }
                 }
             }
-            Spacer(Modifier.height(16.dp))
-            Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = BeigeMaiz.copy(alpha = 0.5f))) {
-                Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Text("*", fontSize = 20.sp, color = Verde)
-                    Spacer(Modifier.width(12.dp))
-                    Text("Funciona completamente sin internet una vez descargado.", fontSize = 13.sp, color = CafeTierra)
+        }
+    }
+}
+
+@Composable
+fun PantallaHome(nombreUsuario: String, onSeleccionLengua: () -> Unit) {
+    val opciones = listOf(
+        Triple("Aprender", "Practica tu lengua", Verde),
+        Triple("Grabar", "Comparte tu voz", Terracota),
+        Triple("Diccionario", "Explora palabras", Turquesa),
+        Triple("Comunidad", "Conecta y comparte", CafeTierra)
+    )
+    Scaffold(
+        bottomBar = {
+            NavigationBar(containerColor = Color.White) {
+                listOf("Inicio", "Aprender", "Grabar", "Diccionario", "Perfil").forEachIndexed { index, label ->
+                    NavigationBarItem(
+                        selected = index == 0,
+                        onClick = {},
+                        icon = { Text(when(index) { 0 -> "O"; 1 -> "A"; 2 -> "G"; 3 -> "D"; else -> "P" }, fontSize = 16.sp) },
+                        label = { Text(label, fontSize = 10.sp) }
+                    )
+                }
+            }
+        }
+    ) { padding ->
+        LazyColumn(
+            modifier = Modifier.fillMaxSize().background(BeigeCalido).padding(padding).padding(24.dp)
+        ) {
+            item {
+                Spacer(Modifier.height(16.dp))
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                    Column {
+                        Text("Hola, $nombreUsuario!", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = CafeTierra)
+                        Text("Que bueno verte de nuevo", fontSize = 14.sp, color = CafeTierra.copy(alpha = 0.6f))
+                    }
+                }
+                Spacer(Modifier.height(20.dp))
+                Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = Verde)) {
+                    Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+                        Column {
+                            Text("Tu progreso de hoy", fontSize = 13.sp, color = Color.White.copy(alpha = 0.8f))
+                            Text("Racha diaria", fontSize = 12.sp, color = Color.White.copy(alpha = 0.7f))
+                            Spacer(Modifier.height(4.dp))
+                            Text("7 dias", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                        }
+                        Box(contentAlignment = Alignment.Center) {
+                            CircularProgressIndicator(progress = { 0.65f }, modifier = Modifier.size(64.dp), color = Color.White, trackColor = Verde.copy(alpha = 0.3f), strokeWidth = 6.dp)
+                            Text("65%", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                        }
+                    }
+                }
+                Spacer(Modifier.height(20.dp))
+                Text("Que quieres hacer hoy?", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = CafeTierra)
+                Spacer(Modifier.height(12.dp))
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    opciones.take(2).forEach { (titulo, sub, color) ->
+                        Card(modifier = Modifier.weight(1f), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = color), onClick = {}) {
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                Text(titulo, fontWeight = FontWeight.Bold, color = Color.White, fontSize = 16.sp)
+                                Text(sub, color = Color.White.copy(alpha = 0.8f), fontSize = 12.sp)
+                            }
+                        }
+                    }
+                }
+                Spacer(Modifier.height(12.dp))
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    opciones.drop(2).forEach { (titulo, sub, color) ->
+                        Card(modifier = Modifier.weight(1f), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = color), onClick = {}) {
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                Text(titulo, fontWeight = FontWeight.Bold, color = Color.White, fontSize = 16.sp)
+                                Text(sub, color = Color.White.copy(alpha = 0.8f), fontSize = 12.sp)
+                            }
+                        }
+                    }
+                }
+                Spacer(Modifier.height(20.dp))
+                Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(16.dp), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+                    Column(modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text("Palabra del dia", fontSize = 13.sp, color = GrisSuave)
+                        Text("Tlalli", fontSize = 32.sp, fontWeight = FontWeight.Bold, color = CafeTierra)
+                        Text("Tierra", fontSize = 16.sp, color = Turquesa)
+                    }
+                }
+                Spacer(Modifier.height(16.dp))
+                Button(onClick = onSeleccionLengua, colors = ButtonDefaults.buttonColors(containerColor = Turquesa), shape = RoundedCornerShape(12.dp), modifier = Modifier.fillMaxWidth().height(52.dp)) {
+                    Text("Cambiar lengua", color = Color.White, fontSize = 16.sp)
                 }
             }
         }

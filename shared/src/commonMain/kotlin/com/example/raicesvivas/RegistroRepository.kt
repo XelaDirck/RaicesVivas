@@ -4,7 +4,6 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 
 @Serializable
 data class RegistroRequestDto(
@@ -14,6 +13,12 @@ data class RegistroRequestDto(
     val contrasena: String,
     val edad: Int,
     val pais: String
+)
+
+@Serializable
+data class LoginRequestDto(
+    val correo: String,
+    val contrasena: String
 )
 
 class RegistroRepository {
@@ -29,10 +34,16 @@ class RegistroRepository {
         edad: Int,
         pais: String
     ): String {
-        val response = httpClient.post("${ApiConfig.BASE_URL}/registro") {
+        return httpClient.post("${ApiConfig.BASE_URL}/registro") {
             contentType(ContentType.Application.Json)
             setBody(RegistroRequestDto(nombreCompleto, nombreUsuario, correo, contrasena, edad, pais))
-        }
-        return response.bodyAsText()
+        }.bodyAsText()
+    }
+
+    suspend fun login(correo: String, contrasena: String): String {
+        return httpClient.post("${ApiConfig.BASE_URL}/login") {
+            contentType(ContentType.Application.Json)
+            setBody(LoginRequestDto(correo, contrasena))
+        }.bodyAsText()
     }
 }
