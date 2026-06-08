@@ -1,8 +1,10 @@
 package com.example.raicesvivas
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -64,13 +66,27 @@ fun App() {
                 onVolver = { pantalla = Pantalla.LOGIN }
             )
             Pantalla.SELECCION_LENGUA -> PantallaSeleccionLengua(
-                onLenguaSeleccionada = { pantalla = Pantalla.HOME }
+                onLenguaSeleccionada = { pantalla = Pantalla.HOME },
+                onVolver = { pantalla = Pantalla.HOME }
             )
             Pantalla.HOME -> PantallaHome(
                 nombreUsuario = nombreUsuario,
                 onSeleccionLengua = { pantalla = Pantalla.SELECCION_LENGUA }
             )
         }
+    }
+}
+
+@Composable
+fun TopBarConRegreso(titulo: String, onVolver: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(top = 40.dp, start = 4.dp, end = 16.dp, bottom = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        TextButton(onClick = onVolver) {
+            Text("<", color = CafeTierra, fontSize = 22.sp, fontWeight = FontWeight.Bold)
+        }
+        Text(titulo, fontSize = 22.sp, fontWeight = FontWeight.Bold, color = CafeTierra)
     }
 }
 
@@ -171,14 +187,12 @@ fun PantallaEntrar(onLoginExitoso: (String) -> Unit, onVolver: () -> Unit) {
     var mensaje by remember { mutableStateOf("") }
     var cargando by remember { mutableStateOf(false) }
 
+    BackHandler { onVolver() }
+
     Box(modifier = Modifier.fillMaxSize().background(BeigeCalido)) {
-        Column(modifier = Modifier.fillMaxSize().padding(32.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Spacer(Modifier.height(40.dp))
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                TextButton(onClick = onVolver) { Text("<", color = CafeTierra, fontSize = 20.sp) }
-                Text("Entrar", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = CafeTierra)
-            }
-            Spacer(Modifier.height(32.dp))
+        Column(modifier = Modifier.fillMaxSize().padding(horizontal = 32.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            TopBarConRegreso("Entrar", onVolver)
+            Spacer(Modifier.height(16.dp))
             OutlinedTextField(value = correo, onValueChange = { correo = it }, label = { Text("Correo electronico") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
             Spacer(Modifier.height(12.dp))
             OutlinedTextField(value = contrasena, onValueChange = { contrasena = it }, label = { Text("Contrasena") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), visualTransformation = PasswordVisualTransformation())
@@ -192,12 +206,10 @@ fun PantallaEntrar(onLoginExitoso: (String) -> Unit, onVolver: () -> Unit) {
                         mensaje = try {
                             val resultado = repo.login(correo, contrasena)
                             if (resultado.contains("exitoso", true)) {
-                                val nombre = resultado.substringAfter("Bienvenido").trim()
+                                val nombre = resultado.substringAfter("Bienvenido").trim().trimEnd('"', '}')
                                 onLoginExitoso(nombre)
                                 ""
-                            } else {
-                                resultado
-                            }
+                            } else resultado
                         } catch (e: Exception) { "Error: ${e.message}" }
                         cargando = false
                     }
@@ -229,15 +241,13 @@ fun PantallaRegistro(onRegistrado: (String) -> Unit, onVolver: () -> Unit) {
     var mensaje by remember { mutableStateOf("") }
     var cargando by remember { mutableStateOf(false) }
 
+    BackHandler { onVolver() }
+
     Box(modifier = Modifier.fillMaxSize().background(BeigeCalido)) {
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(32.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        LazyColumn(modifier = Modifier.fillMaxSize().padding(horizontal = 32.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             item {
-                Spacer(Modifier.height(40.dp))
-                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    TextButton(onClick = onVolver) { Text("<", color = CafeTierra, fontSize = 20.sp) }
-                    Text("Crear cuenta", fontSize = 24.sp, fontWeight = FontWeight.Bold, color = CafeTierra)
-                }
-                Spacer(Modifier.height(24.dp))
+                TopBarConRegreso("Crear cuenta", onVolver)
+                Spacer(Modifier.height(8.dp))
                 OutlinedTextField(value = nombreCompleto, onValueChange = { nombreCompleto = it }, label = { Text("Nombre completo") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
                 Spacer(Modifier.height(8.dp))
                 OutlinedTextField(value = nombreUsuario, onValueChange = { nombreUsuario = it }, label = { Text("Nombre de usuario") }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp))
@@ -274,13 +284,14 @@ fun PantallaRegistro(onRegistrado: (String) -> Unit, onVolver: () -> Unit) {
                 }
                 Spacer(Modifier.height(12.dp))
                 TextButton(onClick = onVolver) { Text("Ya tengo cuenta", color = Turquesa) }
+                Spacer(Modifier.height(32.dp))
             }
         }
     }
 }
 
 @Composable
-fun PantallaSeleccionLengua(onLenguaSeleccionada: (String) -> Unit) {
+fun PantallaSeleccionLengua(onLenguaSeleccionada: (String) -> Unit, onVolver: () -> Unit) {
     val lenguas = listOf(
         "Nahuatl" to "Mexicano central",
         "Maya" to "Peninsular",
@@ -289,17 +300,17 @@ fun PantallaSeleccionLengua(onLenguaSeleccionada: (String) -> Unit) {
         "Otomi" to "Centro de Mexico",
         "Purepecha" to "Michoacan"
     )
+
+    BackHandler { onVolver() }
+
     Box(modifier = Modifier.fillMaxSize().background(BeigeCalido)) {
-        LazyColumn(modifier = Modifier.fillMaxSize().padding(24.dp)) {
+        LazyColumn(modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp)) {
             item {
-                Spacer(Modifier.height(40.dp))
-                Text("Elige tu lengua", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = CafeTierra, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
-                Spacer(Modifier.height(8.dp))
+                TopBarConRegreso("Elige tu lengua", onVolver)
                 Text("Descarga el paquete para usarlo sin conexion.", fontSize = 14.sp, color = CafeTierra.copy(alpha = 0.7f), textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
-                Spacer(Modifier.height(24.dp))
+                Spacer(Modifier.height(16.dp))
             }
-            items(lenguas.size) { index ->
-                val (nombre, region) = lenguas[index]
+            items(lenguas) { (nombre, region) ->
                 Card(
                     onClick = { onLenguaSeleccionada(nombre) },
                     modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp),
@@ -319,6 +330,7 @@ fun PantallaSeleccionLengua(onLenguaSeleccionada: (String) -> Unit) {
                     }
                 }
             }
+            item { Spacer(Modifier.height(24.dp)) }
         }
     }
 }
@@ -331,6 +343,7 @@ fun PantallaHome(nombreUsuario: String, onSeleccionLengua: () -> Unit) {
         Triple("Diccionario", "Explora palabras", Turquesa),
         Triple("Comunidad", "Conecta y comparte", CafeTierra)
     )
+
     Scaffold(
         bottomBar = {
             NavigationBar(containerColor = Color.White) {
@@ -345,9 +358,7 @@ fun PantallaHome(nombreUsuario: String, onSeleccionLengua: () -> Unit) {
             }
         }
     ) { padding ->
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().background(BeigeCalido).padding(padding).padding(24.dp)
-        ) {
+        LazyColumn(modifier = Modifier.fillMaxSize().background(BeigeCalido).padding(padding).padding(24.dp)) {
             item {
                 Spacer(Modifier.height(16.dp))
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
@@ -407,6 +418,7 @@ fun PantallaHome(nombreUsuario: String, onSeleccionLengua: () -> Unit) {
                 Button(onClick = onSeleccionLengua, colors = ButtonDefaults.buttonColors(containerColor = Turquesa), shape = RoundedCornerShape(12.dp), modifier = Modifier.fillMaxWidth().height(52.dp)) {
                     Text("Cambiar lengua", color = Color.White, fontSize = 16.sp)
                 }
+                Spacer(Modifier.height(24.dp))
             }
         }
     }

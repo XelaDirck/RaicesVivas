@@ -49,6 +49,7 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation("org.jetbrains.compose.material:material-icons-core:1.6.11")
             implementation("org.jetbrains.androidx.navigation:navigation-compose:2.7.0-alpha07")
             implementation("androidx.datastore:datastore-preferences-core:1.1.1")
             implementation("io.ktor:ktor-client-core:2.3.10")
