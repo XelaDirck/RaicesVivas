@@ -1,5 +1,5 @@
 package com.example.raicesvivas
 
 object ApiConfig {
-    const val BASE_URL = "https://tu-app.up.railway.app"
+    const val BASE_URL = "https://raicesvivas-production.up.railway.app"
 }
