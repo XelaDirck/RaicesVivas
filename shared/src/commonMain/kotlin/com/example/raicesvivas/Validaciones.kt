@@ -3,7 +3,7 @@ package com.example.raicesvivas
 fun validarNombreCompleto(valor: String): String? {
     if (valor.isBlank()) return "El nombre es obligatorio"
     if (!valor.all { it.isLetter() || it.isWhitespace() }) return "Solo se permiten letras"
-    if (valor.trim().length < 50) return "Minimo 50 caracteres (tienes ${valor.trim().length})"
+    if (valor.trim().length > 50) return "Maximo 50 caracteres"
     return null
 }
 
