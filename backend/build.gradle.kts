@@ -1,8 +1,8 @@
-﻿plugins {
+plugins {
     kotlin("jvm") version "1.9.23"
-    id("io.ktor.plugin") version "2.3.12"
     kotlin("plugin.serialization") version "1.9.23"
     application
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 repositories {
@@ -11,6 +11,13 @@ repositories {
 
 application {
     mainClass.set("com.example.raicesvivas.ApplicationKt")
+}
+
+tasks.shadowJar {
+    manifest {
+        attributes["Main-Class"] = "com.example.raicesvivas.ApplicationKt"
+    }
+    mergeServiceFiles()
 }
 
 dependencies {
@@ -26,4 +33,3 @@ dependencies {
     implementation("com.zaxxer:HikariCP:5.1.0")
     implementation("org.mindrot:jbcrypt:0.4")
 }
-
