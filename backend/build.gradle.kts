@@ -1,6 +1,6 @@
-plugins {
+﻿plugins {
     kotlin("jvm") version "1.9.23"
-    id("io.ktor.plugin") version "2.3.10"
+    id("io.ktor.plugin") version "2.3.12"
     kotlin("plugin.serialization") version "1.9.23"
     application
 }
@@ -26,3 +26,4 @@ dependencies {
     implementation("com.zaxxer:HikariCP:5.1.0")
     implementation("org.mindrot:jbcrypt:0.4")
 }
+
