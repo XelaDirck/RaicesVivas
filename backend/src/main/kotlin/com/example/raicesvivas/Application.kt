@@ -1,4 +1,4 @@
-package com.example.raicesvivas
+﻿package com.example.raicesvivas
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -184,6 +184,19 @@ fun main() {
                     call.respond(ApiResponse("error", "Correo o contrasena incorrectos"))
                 } else {
                     call.respond(ApiResponse("ok", "Login exitoso. Bienvenido ${usuario[Usuarios.nombreUsuario]}|${usuario[Usuarios.id]}|${usuario[Usuarios.nombreCompleto]}"))
+            }
+        }
+
+        put("/usuarios/{id}/foto") {
+            val id = call.parameters["id"]?.toIntOrNull()
+                ?: return@put call.respond(ApiResponse("error", "ID invalido"))
+            val req = call.receive<ActualizarFotoRequest>()
+            transaction {
+                Usuarios.update({ Usuarios.id eq id }) {
+                    it[fotoPerfil] = req.fotoUrl
+                }
+            }
+            call.respond(ApiResponse("ok", "Foto actualizada correctamente"))
                 }
             }
 
@@ -338,3 +351,4 @@ fun main() {
         }
     }.start(wait = true)
 }
+
