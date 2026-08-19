@@ -1,4 +1,4 @@
-﻿package com.example.raicesvivas
+package com.example.raicesvivas
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -111,6 +111,17 @@ object ProgresoLengua : Table("progreso_lengua") {
     override val primaryKey = PrimaryKey(id)
 }
 
+object UbicacionesUsuario : Table("ubicaciones_usuario") {
+    val id = integer("id").autoIncrement()
+    val usuarioId = integer("usuario_id")
+    val latitud = double("latitud")
+    val longitud = double("longitud")
+    val estado = varchar("estado", 100)
+    val lenguaId = integer("lengua_id")
+    val fecha = varchar("fecha", 50)
+    override val primaryKey = PrimaryKey(id)
+}
+
 // ==================== MODELOS ====================
 
 @Serializable data class RegistroRequest(val nombreCompleto: String, val nombreUsuario: String, val correo: String, val contrasena: String, val edad: Int, val pais: String, val fotoPerfil: String? = null)
@@ -126,6 +137,8 @@ object ProgresoLengua : Table("progreso_lengua") {
 @Serializable data class ProgresoRequest(val usuarioId: Int, val leccionId: Int, val puntuacion: Int)
 @Serializable data class CrearPalabraRequest(val lenguaId: Int, val leccionId: Int?, val palabraOriginal: String, val traduccion: String, val pronunciacion: String?, val imagenUrl: String?, val audioUrl: String?, val ejemploUso: String?, val nivelDificultad: Int = 1)
 @Serializable data class CrearEjercicioRequest(val leccionId: Int, val tipo: String, val pregunta: String, val audioPreguntaUrl: String?, val imagenUrl: String?, val orden: Int, val opciones: List<OpcionDto>)
+@Serializable data class UbicacionRequest(val usuarioId: Int, val latitud: Double, val longitud: Double, val estado: String, val lenguaId: Int)
+@Serializable data class ActualizarFotoRequest(val fotoUrl: String)
 
 // ==================== DATABASE ====================
 
@@ -142,7 +155,7 @@ fun initDatabase() {
         SchemaUtils.createMissingTablesAndColumns(
             Usuarios, Lenguas, Niveles, Lecciones,
             Palabras, Ejercicios, OpcionesRespuesta,
-            ProgresoUsuario, ProgresoLengua
+            ProgresoUsuario, ProgresoLengua, UbicacionesUsuario
         )
     }
 }
@@ -184,20 +197,19 @@ fun main() {
                     call.respond(ApiResponse("error", "Correo o contrasena incorrectos"))
                 } else {
                     call.respond(ApiResponse("ok", "Login exitoso. Bienvenido ${usuario[Usuarios.nombreUsuario]}|${usuario[Usuarios.id]}|${usuario[Usuarios.nombreCompleto]}"))
+                }
             }
-        }
 
-        put("/usuarios/{id}/foto") {
-            val id = call.parameters["id"]?.toIntOrNull()
-                ?: return@put call.respond(ApiResponse("error", "ID invalido"))
-            val req = call.receive<ActualizarFotoRequest>()
-            transaction {
-                Usuarios.update({ Usuarios.id eq id }) {
-                    it[fotoPerfil] = req.fotoUrl
+            put("/usuarios/{id}/foto") {
+                val id = call.parameters["id"]?.toIntOrNull()
+                    ?: return@put call.respond(ApiResponse("error", "ID invalido"))
+                val req = call.receive<ActualizarFotoRequest>()
+                transaction {
+                    Usuarios.update({ Usuarios.id eq id }) {
+                        it[fotoPerfil] = req.fotoUrl
+                    }
                 }
-            }
-            call.respond(ApiResponse("ok", "Foto actualizada correctamente"))
-                }
+                call.respond(ApiResponse("ok", "Foto actualizada correctamente"))
             }
 
             // ---- LENGUAS ----
@@ -308,10 +320,10 @@ fun main() {
                             it[intentos] = 1
                         }
                     } else {
-                        ProgresoUsuario.update {
+                        ProgresoUsuario.update({ (ProgresoUsuario.usuarioId eq req.usuarioId) and (ProgresoUsuario.leccionId eq req.leccionId) }) {
                             it[puntuacion] = req.puntuacion
                             it[completada] = req.puntuacion >= 70
-                            it[intentos] = existente[intentos] + 1
+                            it[intentos] = existente[ProgresoUsuario.intentos] + 1
                         }
                     }
                 }
@@ -331,6 +343,22 @@ fun main() {
                     }
                 }
                 call.respond(lista)
+            }
+
+            // ---- UBICACIONES (GPS) ----
+            post("/ubicaciones") {
+                val req = call.receive<UbicacionRequest>()
+                transaction {
+                    UbicacionesUsuario.insert {
+                        it[usuarioId] = req.usuarioId
+                        it[latitud] = req.latitud
+                        it[longitud] = req.longitud
+                        it[estado] = req.estado
+                        it[lenguaId] = req.lenguaId
+                        it[fecha] = java.time.LocalDateTime.now().toString()
+                    }
+                }
+                call.respond(ApiResponse("ok", "Ubicacion registrada correctamente"))
             }
 
             // ---- DESCARGA COMPLETA POR LENGUA (para modo offline) ----

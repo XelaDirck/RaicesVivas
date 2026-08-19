@@ -1,0 +1,210 @@
+﻿To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.0.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :backend:checkKotlinGradlePluginConfigurationErrors
+> Task :backend:processResources NO-SOURCE
+
+> Task :backend:compileKotlin FAILED
+.\gradlew.bat : e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:380:6 Expecting a top level declaration
+En línea: 1 Carácter: 1
++ .\gradlew.bat :backend:shadowJar --no-daemon 2>&1 | Out-File -Encodin ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (e: file:///C:/U...vel declaration:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:380:7 Expecting a top level declaration
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:380:12 Expecting a top level declaration
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:380:13 Expecting a top level declaration
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:380:18 Expecting a top level declaration
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:380:20 Expecting a top level declaration
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:380:24 Expecting a top level declaration
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:381:1 Expecting a top level declaration
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:205:36 Unresolved reference: ActualizarFotoRequest
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:216:13 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public fun Route.get(path: String, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.get(path: Regex, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.get(body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:222:17 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:225:13 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public fun Route.get(path: String, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.get(path: Regex, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.get(body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:226:26 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:226:77 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:228:37 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:229:22 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:233:13 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public fun Route.get(path: String, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.get(path: Regex, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.get(body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:234:32 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:234:83 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:240:17 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:244:13 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public fun Route.get(path: String, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.get(path: Regex, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.get(body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:245:31 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:245:82 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:251:17 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:255:13 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public fun Route.get(path: String, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.get(path: Regex, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.get(body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:256:32 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:256:83 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:262:17 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:265:13 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public fun Route.get(path: String, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.get(path: Regex, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.get(body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:266:33 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:266:84 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:272:17 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:275:13 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public inline fun <reified R : Any> Route.post(path: String, crossinline body: suspend PipelineContext<Unit, ApplicationCall>.(TypeVariable(R)) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.post(path: String, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public inline fun <reified R : Any> Route.post(path: Regex, crossinline body: suspend PipelineContext<Unit, ApplicationCall>.(TypeVariable(R)) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.post(path: Regex, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public inline fun <reified R : Any> Route.post(crossinline body: suspend PipelineContext<Unit, ApplicationCall>.(TypeVariable(R)) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.post(body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:276:27 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:290:17 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:294:13 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public fun Route.get(path: String, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.get(path: Regex, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.get(body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:295:33 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:295:84 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:304:17 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:308:13 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public inline fun <reified R : Any> Route.post(path: String, crossinline body: suspend PipelineContext<Unit, ApplicationCall>.(TypeVariable(R)) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.post(path: String, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public inline fun <reified R : Any> Route.post(path: Regex, crossinline body: suspend PipelineContext<Unit, ApplicationCall>.(TypeVariable(R)) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.post(path: Regex, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public inline fun <reified R : Any> Route.post(crossinline body: suspend PipelineContext<Unit, ApplicationCall>.(TypeVariable(R)) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.post(body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:309:27 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:330:17 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:333:13 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public fun Route.get(path: String, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.get(path: Regex, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.get(body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:334:33 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:334:91 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:345:17 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:349:13 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public inline fun <reified R : Any> Route.post(path: String, crossinline body: suspend PipelineContext<Unit, ApplicationCall>.(TypeVariable(R)) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.post(path: String, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public inline fun <reified R : Any> Route.post(path: Regex, crossinline body: suspend PipelineContext<Unit, ApplicationCall>.(TypeVariable(R)) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.post(path: Regex, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public inline fun <reified R : Any> Route.post(crossinline body: suspend PipelineContext<Unit, ApplicationCall>.(TypeVariable(R)) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.post(body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:350:27 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:361:17 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:365:13 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public fun Route.get(path: String, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.get(path: Regex, body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+public fun Route.get(body: suspend PipelineContext<Unit, ApplicationCall>.(Unit) -> Unit): Route defined in io.ktor.server.routing
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:366:32 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:366:89 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+e: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/backend/src/main/kotlin/com/example/raicesvivas/Application.kt:377:17 Unresolved reference. None of the following candidates is applicable because of receiver type 
+mismatch: 
+public val PipelineContext<*, ApplicationCall>.call: ApplicationCall defined in io.ktor.server.application
+
+[Incubating] Problems report is available at: file:///C:/Users/xelad/AndroidStudioProjects/RaicesVivas/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':backend:compileKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (Powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.0.0/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 58s
+2 actionable tasks: 2 executed
