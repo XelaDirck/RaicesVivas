@@ -1,4 +1,4 @@
-package com.example.raicesvivas
+﻿package com.example.raicesvivas
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -462,8 +462,9 @@ fun main() {
                     Lenguas.selectAll().map { l ->
                         val lenguaId = l[Lenguas.id]
                         val totalPalabras = Palabras.select { Palabras.lenguaId eq lenguaId }.count().toInt()
-                        val leccionesIds = Lecciones.selectAll().map { it[Lecciones.id] }
-                        val totalActividades = Ejercicios.select { Ejercicios.leccionId inList leccionesIds }.count().toInt()
+                        val nivelesIds = Niveles.select { Niveles.lenguaId eq lenguaId }.map { it[Niveles.id] }
+                        val leccionesIds = Lecciones.select { Lecciones.nivelId inList nivelesIds }.map { it[Lecciones.id] }
+                        val totalActividades = if (leccionesIds.isEmpty()) 0 else Ejercicios.select { Ejercicios.leccionId inList leccionesIds }.count().toInt()
                         val totalLetras = Abecedario.select { Abecedario.lenguaId eq lenguaId }.count().toInt()
                         AuditoriaLenguaDto(
                             lenguaId = lenguaId,
