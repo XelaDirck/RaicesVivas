@@ -384,6 +384,7 @@ fun main() {
                             it[audioUrl] = p.audioUrl
                             it[ejemploUso] = p.ejemploUso
                             it[nivelDificultad] = p.nivelDificultad
+                            it[categoria] = p.categoria
                         }
                     }
                 }
