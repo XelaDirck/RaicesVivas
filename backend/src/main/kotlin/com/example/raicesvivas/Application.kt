@@ -156,6 +156,9 @@ object UbicacionesUsuario : Table("ubicaciones_usuario") {
 @Serializable data class SincronizarProgresoRequest(val usuarioId: Int, val items: List<ProgresoOfflineItem>)
 @Serializable data class DescargaLenguaDto(val lengua: LenguaDto?, val niveles: List<NivelDto>, val palabras: List<PalabraDto>, val abecedario: List<LetraDto>, val ejercicios: List<EjercicioDto>)
 @Serializable data class LetraInsertRequest(val lenguaId: Int, val letra: String, val pronunciacion: String, val audioUrl: String? = null, val orden: Int)
+@Serializable data class OpcionInsertDto(val texto: String, val esCorrecta: Boolean)
+@Serializable data class EjercicioInsertDto(val tipo: String, val pregunta: String, val orden: Int, val opciones: List<OpcionInsertDto>)
+@Serializable data class ActividadesLoteRequest(val lenguaId: Int, val nivelNombre: String, val nivelDescripcion: String? = null, val leccionTitulo: String, val ejercicios: List<EjercicioInsertDto>)
 
 // ==================== DATABASE ====================
 
@@ -382,6 +385,46 @@ fun main() {
                     }
                 }
                 call.respond(ApiResponse("ok", "${req.size} palabras insertadas"))
+            }
+
+            post("/actividades/lote") {
+                val req = call.receive<ActividadesLoteRequest>()
+                transaction {
+                    val nivelId = Niveles.insert {
+                        it[lenguaId] = req.lenguaId
+                        it[nombre] = req.nivelNombre
+                        it[descripcion] = req.nivelDescripcion
+                        it[orden] = 1
+                    } get Niveles.id
+
+                    val leccionId = Lecciones.insert {
+                        it[Lecciones.nivelId] = nivelId
+                        it[titulo] = req.leccionTitulo
+                        it[descripcion] = null
+                        it[orden] = 1
+                    } get Lecciones.id
+
+                    req.ejercicios.forEach { ej ->
+                        val ejercicioId = Ejercicios.insert {
+                            it[Ejercicios.leccionId] = leccionId
+                            it[tipo] = ej.tipo
+                            it[pregunta] = ej.pregunta
+                            it[audioPreguntaUrl] = null
+                            it[imagenUrl] = null
+                            it[orden] = ej.orden
+                        } get Ejercicios.id
+
+                        ej.opciones.forEach { op ->
+                            OpcionesRespuesta.insert {
+                                it[OpcionesRespuesta.ejercicioId] = ejercicioId
+                                it[texto] = op.texto
+                                it[esCorrecta] = op.esCorrecta
+                                it[audioUrl] = null
+                            }
+                        }
+                    }
+                }
+                call.respond(ApiResponse("ok", "${req.ejercicios.size} actividades insertadas para lenguaId=${req.lenguaId}"))
             }
 
             post("/abecedario/lote") {
