@@ -108,6 +108,17 @@ object ProgresoLengua : Table("progreso_lengua") {
     val lenguaId = integer("lengua_id")
     val descargada = bool("descargada").default(false)
     val rachaDias = integer("racha_dias").default(0)
+    val ultimaFecha = varchar("ultima_fecha", 50).nullable()
+    override val primaryKey = PrimaryKey(id)
+}
+
+object Abecedario : Table("abecedario") {
+    val id = integer("id").autoIncrement()
+    val lenguaId = integer("lengua_id")
+    val letra = varchar("letra", 10)
+    val pronunciacion = varchar("pronunciacion", 200)
+    val audioUrl = varchar("audio_url", 500).nullable()
+    val orden = integer("orden")
     override val primaryKey = PrimaryKey(id)
 }
 
@@ -139,6 +150,11 @@ object UbicacionesUsuario : Table("ubicaciones_usuario") {
 @Serializable data class CrearEjercicioRequest(val leccionId: Int, val tipo: String, val pregunta: String, val audioPreguntaUrl: String?, val imagenUrl: String?, val orden: Int, val opciones: List<OpcionDto>)
 @Serializable data class UbicacionRequest(val usuarioId: Int, val latitud: Double, val longitud: Double, val estado: String, val lenguaId: Int)
 @Serializable data class ActualizarFotoRequest(val fotoUrl: String)
+@Serializable data class LetraDto(val id: Int, val lenguaId: Int, val letra: String, val pronunciacion: String, val audioUrl: String?, val orden: Int)
+@Serializable data class AuditoriaLenguaDto(val lenguaId: Int, val nombre: String, val totalPalabras: Int, val totalActividades: Int, val totalLetrasAbecedario: Int, val cumplePalabras: Boolean, val cumpleActividades: Boolean, val cumpleAbecedario: Boolean)
+@Serializable data class ProgresoOfflineItem(val leccionId: Int, val puntuacion: Int, val fecha: String)
+@Serializable data class SincronizarProgresoRequest(val usuarioId: Int, val items: List<ProgresoOfflineItem>)
+@Serializable data class DescargaLenguaDto(val lengua: LenguaDto?, val niveles: List<NivelDto>, val palabras: List<PalabraDto>, val abecedario: List<LetraDto>, val ejercicios: List<EjercicioDto>)
 
 // ==================== DATABASE ====================
 
@@ -155,7 +171,8 @@ fun initDatabase() {
         SchemaUtils.createMissingTablesAndColumns(
             Usuarios, Lenguas, Niveles, Lecciones,
             Palabras, Ejercicios, OpcionesRespuesta,
-            ProgresoUsuario, ProgresoLengua, UbicacionesUsuario
+            ProgresoUsuario, ProgresoLengua, UbicacionesUsuario,
+            Abecedario
         )
     }
 }
@@ -343,6 +360,156 @@ fun main() {
                     }
                 }
                 call.respond(lista)
+            }
+
+            // ---- ABECEDARIO ----
+            get("/lenguas/{id}/abecedario") {
+                val lenguaId = call.parameters["id"]?.toIntOrNull() ?: return@get call.respond(ApiResponse("error", "ID invalido"))
+                val lista = transaction {
+                    Abecedario.select { Abecedario.lenguaId eq lenguaId }.orderBy(Abecedario.orden).map {
+                        LetraDto(it[Abecedario.id], it[Abecedario.lenguaId], it[Abecedario.letra], it[Abecedario.pronunciacion], it[Abecedario.audioUrl], it[Abecedario.orden])
+                    }
+                }
+                call.respond(lista)
+            }
+
+            // ---- AUDITORIA DE PARIDAD DE CONTENIDO ----
+            get("/auditoria/lenguas") {
+                val MIN_PALABRAS = 30
+                val MIN_ACTIVIDADES = 20
+                val resultado = transaction {
+                    Lenguas.selectAll().map { l ->
+                        val lenguaId = l[Lenguas.id]
+                        val totalPalabras = Palabras.select { Palabras.lenguaId eq lenguaId }.count().toInt()
+                        val leccionesIds = Lecciones.selectAll().map { it[Lecciones.id] }
+                        val totalActividades = Ejercicios.select { Ejercicios.leccionId inList leccionesIds }.count().toInt()
+                        val totalLetras = Abecedario.select { Abecedario.lenguaId eq lenguaId }.count().toInt()
+                        AuditoriaLenguaDto(
+                            lenguaId = lenguaId,
+                            nombre = l[Lenguas.nombre],
+                            totalPalabras = totalPalabras,
+                            totalActividades = totalActividades,
+                            totalLetrasAbecedario = totalLetras,
+                            cumplePalabras = totalPalabras >= MIN_PALABRAS,
+                            cumpleActividades = totalActividades >= MIN_ACTIVIDADES,
+                            cumpleAbecedario = totalLetras > 0
+                        )
+                    }
+                }
+                call.respond(resultado)
+            }
+
+            // ---- DESCARGA OFFLINE COMPLETA (lengua + niveles + palabras + abecedario + ejercicios) ----
+            get("/lenguas/{id}/descarga-completa") {
+                val lenguaId = call.parameters["id"]?.toIntOrNull() ?: return@get call.respond(ApiResponse("error", "ID invalido"))
+                val data = transaction {
+                    val lengua = Lenguas.select { Lenguas.id eq lenguaId }.singleOrNull()
+                    val lenguaDto = lengua?.let { LenguaDto(it[Lenguas.id], it[Lenguas.nombre], it[Lenguas.region], it[Lenguas.descripcion], it[Lenguas.imagenUrl], it[Lenguas.activa]) }
+                    val niveles = Niveles.select { Niveles.lenguaId eq lenguaId }.orderBy(Niveles.orden).map {
+                        NivelDto(it[Niveles.id], it[Niveles.lenguaId], it[Niveles.nombre], it[Niveles.descripcion], it[Niveles.orden])
+                    }
+                    val palabras = Palabras.select { Palabras.lenguaId eq lenguaId }.map {
+                        PalabraDto(it[Palabras.id], it[Palabras.lenguaId], it[Palabras.leccionId], it[Palabras.palabraOriginal], it[Palabras.traduccion], it[Palabras.pronunciacion], it[Palabras.imagenUrl], it[Palabras.audioUrl], it[Palabras.ejemploUso], it[Palabras.nivelDificultad])
+                    }
+                    val abecedario = Abecedario.select { Abecedario.lenguaId eq lenguaId }.orderBy(Abecedario.orden).map {
+                        LetraDto(it[Abecedario.id], it[Abecedario.lenguaId], it[Abecedario.letra], it[Abecedario.pronunciacion], it[Abecedario.audioUrl], it[Abecedario.orden])
+                    }
+                    val leccionIds = niveles.let { ns -> Lecciones.select { Lecciones.nivelId inList ns.map { it.id } } }.map { it[Lecciones.id] }
+                    val ejercicios = Ejercicios.select { Ejercicios.leccionId inList leccionIds }.orderBy(Ejercicios.orden).map { ej ->
+                        val opciones = OpcionesRespuesta.select { OpcionesRespuesta.ejercicioId eq ej[Ejercicios.id] }.map { op ->
+                            OpcionDto(op[OpcionesRespuesta.id], op[OpcionesRespuesta.texto], op[OpcionesRespuesta.esCorrecta], op[OpcionesRespuesta.audioUrl])
+                        }
+                        EjercicioDto(ej[Ejercicios.id], ej[Ejercicios.leccionId], ej[Ejercicios.tipo], ej[Ejercicios.pregunta], ej[Ejercicios.audioPreguntaUrl], ej[Ejercicios.imagenUrl], ej[Ejercicios.orden], opciones)
+                    }
+                    DescargaLenguaDto(lenguaDto, niveles, palabras, abecedario, ejercicios)
+                }
+                call.respond(data)
+            }
+
+            // ---- MARCAR LENGUA COMO DESCARGADA (para el usuario) ----
+            post("/progreso-lengua/{usuarioId}/{lenguaId}/descargada") {
+                val usuarioId = call.parameters["usuarioId"]?.toIntOrNull() ?: return@post call.respond(ApiResponse("error", "ID invalido"))
+                val lenguaId = call.parameters["lenguaId"]?.toIntOrNull() ?: return@post call.respond(ApiResponse("error", "ID invalido"))
+                transaction {
+                    val existente = ProgresoLengua.select { (ProgresoLengua.usuarioId eq usuarioId) and (ProgresoLengua.lenguaId eq lenguaId) }.singleOrNull()
+                    if (existente == null) {
+                        ProgresoLengua.insert {
+                            it[ProgresoLengua.usuarioId] = usuarioId
+                            it[ProgresoLengua.lenguaId] = lenguaId
+                            it[descargada] = true
+                            it[rachaDias] = 0
+                        }
+                    } else {
+                        ProgresoLengua.update({ (ProgresoLengua.usuarioId eq usuarioId) and (ProgresoLengua.lenguaId eq lenguaId) }) {
+                            it[descargada] = true
+                        }
+                    }
+                }
+                call.respond(ApiResponse("ok", "Lengua marcada como descargada"))
+            }
+
+            // ---- SINCRONIZAR PROGRESO ACUMULADO OFFLINE (en lote) + ACTUALIZAR RACHA ----
+            post("/progreso/sincronizar") {
+                val req = call.receive<SincronizarProgresoRequest>()
+                transaction {
+                    req.items.forEach { item ->
+                        val existente = ProgresoUsuario.select {
+                            (ProgresoUsuario.usuarioId eq req.usuarioId) and (ProgresoUsuario.leccionId eq item.leccionId)
+                        }.singleOrNull()
+                        if (existente == null) {
+                            ProgresoUsuario.insert {
+                                it[usuarioId] = req.usuarioId
+                                it[leccionId] = item.leccionId
+                                it[puntuacion] = item.puntuacion
+                                it[completada] = item.puntuacion >= 70
+                                it[intentos] = 1
+                            }
+                        } else {
+                            ProgresoUsuario.update({ (ProgresoUsuario.usuarioId eq req.usuarioId) and (ProgresoUsuario.leccionId eq item.leccionId) }) {
+                                it[puntuacion] = item.puntuacion
+                                it[completada] = item.puntuacion >= 70
+                                it[intentos] = existente[ProgresoUsuario.intentos] + 1
+                            }
+                        }
+                    }
+                }
+                call.respond(ApiResponse("ok", "Progreso sincronizado: ${req.items.size} lecciones"))
+            }
+
+            // ---- ACTUALIZAR RACHA DIARIA (llamar al abrir la app o completar una leccion) ----
+            post("/racha/{usuarioId}/{lenguaId}") {
+                val usuarioId = call.parameters["usuarioId"]?.toIntOrNull() ?: return@post call.respond(ApiResponse("error", "ID invalido"))
+                val lenguaId = call.parameters["lenguaId"]?.toIntOrNull() ?: return@post call.respond(ApiResponse("error", "ID invalido"))
+                val hoy = java.time.LocalDate.now()
+                val resultado = transaction {
+                    val existente = ProgresoLengua.select { (ProgresoLengua.usuarioId eq usuarioId) and (ProgresoLengua.lenguaId eq lenguaId) }.singleOrNull()
+                    val ultimaFechaStr = existente?.get(ProgresoLengua.ultimaFecha)
+                    val nuevaRacha: Int
+                    if (existente == null) {
+                        nuevaRacha = 1
+                        ProgresoLengua.insert {
+                            it[ProgresoLengua.usuarioId] = usuarioId
+                            it[ProgresoLengua.lenguaId] = lenguaId
+                            it[ProgresoLengua.descargada] = false
+                            it[ProgresoLengua.rachaDias] = nuevaRacha
+                            it[ProgresoLengua.ultimaFecha] = hoy.toString()
+                        }
+                    } else {
+                        val fechaParseada = ultimaFechaStr?.let { java.time.LocalDate.parse(it) }
+                        nuevaRacha = when {
+                            fechaParseada == null -> 1
+                            fechaParseada == hoy -> existente[ProgresoLengua.rachaDias]
+                            fechaParseada == hoy.minusDays(1) -> existente[ProgresoLengua.rachaDias] + 1
+                            else -> 1
+                        }
+                        ProgresoLengua.update({ (ProgresoLengua.usuarioId eq usuarioId) and (ProgresoLengua.lenguaId eq lenguaId) }) {
+                            it[ProgresoLengua.rachaDias] = nuevaRacha
+                            it[ProgresoLengua.ultimaFecha] = hoy.toString()
+                        }
+                    }
+                    nuevaRacha
+                }
+                call.respond(mapOf("rachaDias" to resultado))
             }
 
             // ---- UBICACIONES (GPS) ----
