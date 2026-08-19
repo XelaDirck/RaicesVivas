@@ -155,6 +155,7 @@ object UbicacionesUsuario : Table("ubicaciones_usuario") {
 @Serializable data class ProgresoOfflineItem(val leccionId: Int, val puntuacion: Int, val fecha: String)
 @Serializable data class SincronizarProgresoRequest(val usuarioId: Int, val items: List<ProgresoOfflineItem>)
 @Serializable data class DescargaLenguaDto(val lengua: LenguaDto?, val niveles: List<NivelDto>, val palabras: List<PalabraDto>, val abecedario: List<LetraDto>, val ejercicios: List<EjercicioDto>)
+@Serializable data class LetraInsertRequest(val lenguaId: Int, val letra: String, val pronunciacion: String, val audioUrl: String? = null, val orden: Int)
 
 // ==================== DATABASE ====================
 
@@ -360,6 +361,43 @@ fun main() {
                     }
                 }
                 call.respond(lista)
+            }
+
+            // ---- CARGA MASIVA (para importar la base de datos lingueistica) ----
+            post("/palabras/lote") {
+                val req = call.receive<List<CrearPalabraRequest>>()
+                transaction {
+                    req.forEach { p ->
+                        Palabras.insert {
+                            it[lenguaId] = p.lenguaId
+                            it[leccionId] = p.leccionId
+                            it[palabraOriginal] = p.palabraOriginal
+                            it[traduccion] = p.traduccion
+                            it[pronunciacion] = p.pronunciacion
+                            it[imagenUrl] = p.imagenUrl
+                            it[audioUrl] = p.audioUrl
+                            it[ejemploUso] = p.ejemploUso
+                            it[nivelDificultad] = p.nivelDificultad
+                        }
+                    }
+                }
+                call.respond(ApiResponse("ok", "${req.size} palabras insertadas"))
+            }
+
+            post("/abecedario/lote") {
+                val req = call.receive<List<LetraInsertRequest>>()
+                transaction {
+                    req.forEach { l ->
+                        Abecedario.insert {
+                            it[lenguaId] = l.lenguaId
+                            it[letra] = l.letra
+                            it[pronunciacion] = l.pronunciacion
+                            it[audioUrl] = l.audioUrl
+                            it[orden] = l.orden
+                        }
+                    }
+                }
+                call.respond(ApiResponse("ok", "${req.size} letras insertadas"))
             }
 
             // ---- ABECEDARIO ----
