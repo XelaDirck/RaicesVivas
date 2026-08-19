@@ -69,6 +69,7 @@ object Palabras : Table("palabras") {
     val audioUrl = varchar("audio_url", 500).nullable()
     val ejemploUso = text("ejemplo_uso").nullable()
     val nivelDificultad = integer("nivel_dificultad").default(1)
+    val categoria = varchar("categoria", 50).nullable()
     override val primaryKey = PrimaryKey(id)
 }
 
@@ -142,11 +143,11 @@ object UbicacionesUsuario : Table("ubicaciones_usuario") {
 @Serializable data class LenguaDto(val id: Int, val nombre: String, val region: String, val descripcion: String?, val imagenUrl: String?, val activa: Boolean)
 @Serializable data class NivelDto(val id: Int, val lenguaId: Int, val nombre: String, val descripcion: String?, val orden: Int)
 @Serializable data class LeccionDto(val id: Int, val nivelId: Int, val titulo: String, val descripcion: String?, val orden: Int)
-@Serializable data class PalabraDto(val id: Int, val lenguaId: Int, val leccionId: Int?, val palabraOriginal: String, val traduccion: String, val pronunciacion: String?, val imagenUrl: String?, val audioUrl: String?, val ejemploUso: String?, val nivelDificultad: Int)
+@Serializable data class PalabraDto(val id: Int, val lenguaId: Int, val leccionId: Int?, val palabraOriginal: String, val traduccion: String, val pronunciacion: String?, val imagenUrl: String?, val audioUrl: String?, val ejemploUso: String?, val nivelDificultad: Int, val categoria: String? = null)
 @Serializable data class OpcionDto(val id: Int, val texto: String, val esCorrecta: Boolean, val audioUrl: String?)
 @Serializable data class EjercicioDto(val id: Int, val leccionId: Int, val tipo: String, val pregunta: String, val audioPreguntaUrl: String?, val imagenUrl: String?, val orden: Int, val opciones: List<OpcionDto>)
 @Serializable data class ProgresoRequest(val usuarioId: Int, val leccionId: Int, val puntuacion: Int)
-@Serializable data class CrearPalabraRequest(val lenguaId: Int, val leccionId: Int?, val palabraOriginal: String, val traduccion: String, val pronunciacion: String?, val imagenUrl: String?, val audioUrl: String?, val ejemploUso: String?, val nivelDificultad: Int = 1)
+@Serializable data class CrearPalabraRequest(val lenguaId: Int, val leccionId: Int?, val palabraOriginal: String, val traduccion: String, val pronunciacion: String?, val imagenUrl: String?, val audioUrl: String?, val ejemploUso: String?, val nivelDificultad: Int = 1, val categoria: String? = null)
 @Serializable data class CrearEjercicioRequest(val leccionId: Int, val tipo: String, val pregunta: String, val audioPreguntaUrl: String?, val imagenUrl: String?, val orden: Int, val opciones: List<OpcionDto>)
 @Serializable data class UbicacionRequest(val usuarioId: Int, val latitud: Double, val longitud: Double, val estado: String, val lenguaId: Int)
 @Serializable data class ActualizarFotoRequest(val fotoUrl: String)
@@ -154,6 +155,8 @@ object UbicacionesUsuario : Table("ubicaciones_usuario") {
 @Serializable data class AuditoriaLenguaDto(val lenguaId: Int, val nombre: String, val totalPalabras: Int, val totalActividades: Int, val totalLetrasAbecedario: Int, val cumplePalabras: Boolean, val cumpleActividades: Boolean, val cumpleAbecedario: Boolean)
 @Serializable data class ProgresoOfflineItem(val leccionId: Int, val puntuacion: Int, val fecha: String)
 @Serializable data class SincronizarProgresoRequest(val usuarioId: Int, val items: List<ProgresoOfflineItem>)
+@Serializable data class CategorizarPalabraItem(val lenguaId: Int, val palabraOriginal: String, val categoria: String)
+@Serializable data class CategorizarLoteRequest(val items: List<CategorizarPalabraItem>)
 @Serializable data class DescargaLenguaDto(val lengua: LenguaDto?, val niveles: List<NivelDto>, val palabras: List<PalabraDto>, val abecedario: List<LetraDto>, val ejercicios: List<EjercicioDto>)
 @Serializable data class LetraInsertRequest(val lenguaId: Int, val letra: String, val pronunciacion: String, val audioUrl: String? = null, val orden: Int)
 @Serializable data class OpcionInsertDto(val texto: String, val esCorrecta: Boolean)
@@ -277,7 +280,7 @@ fun main() {
                 val lenguaId = call.parameters["id"]?.toIntOrNull() ?: return@get call.respond(ApiResponse("error", "ID invalido"))
                 val lista = transaction {
                     Palabras.select { Palabras.lenguaId eq lenguaId }.map {
-                        PalabraDto(it[Palabras.id], it[Palabras.lenguaId], it[Palabras.leccionId], it[Palabras.palabraOriginal], it[Palabras.traduccion], it[Palabras.pronunciacion], it[Palabras.imagenUrl], it[Palabras.audioUrl], it[Palabras.ejemploUso], it[Palabras.nivelDificultad])
+                        PalabraDto(it[Palabras.id], it[Palabras.lenguaId], it[Palabras.leccionId], it[Palabras.palabraOriginal], it[Palabras.traduccion], it[Palabras.pronunciacion], it[Palabras.imagenUrl], it[Palabras.audioUrl], it[Palabras.ejemploUso], it[Palabras.nivelDificultad], it[Palabras.categoria])
                     }
                 }
                 call.respond(lista)
@@ -287,7 +290,7 @@ fun main() {
                 val leccionId = call.parameters["id"]?.toIntOrNull() ?: return@get call.respond(ApiResponse("error", "ID invalido"))
                 val lista = transaction {
                     Palabras.select { Palabras.leccionId eq leccionId }.map {
-                        PalabraDto(it[Palabras.id], it[Palabras.lenguaId], it[Palabras.leccionId], it[Palabras.palabraOriginal], it[Palabras.traduccion], it[Palabras.pronunciacion], it[Palabras.imagenUrl], it[Palabras.audioUrl], it[Palabras.ejemploUso], it[Palabras.nivelDificultad])
+                        PalabraDto(it[Palabras.id], it[Palabras.lenguaId], it[Palabras.leccionId], it[Palabras.palabraOriginal], it[Palabras.traduccion], it[Palabras.pronunciacion], it[Palabras.imagenUrl], it[Palabras.audioUrl], it[Palabras.ejemploUso], it[Palabras.nivelDificultad], it[Palabras.categoria])
                     }
                 }
                 call.respond(lista)
@@ -491,7 +494,7 @@ fun main() {
                         NivelDto(it[Niveles.id], it[Niveles.lenguaId], it[Niveles.nombre], it[Niveles.descripcion], it[Niveles.orden])
                     }
                     val palabras = Palabras.select { Palabras.lenguaId eq lenguaId }.map {
-                        PalabraDto(it[Palabras.id], it[Palabras.lenguaId], it[Palabras.leccionId], it[Palabras.palabraOriginal], it[Palabras.traduccion], it[Palabras.pronunciacion], it[Palabras.imagenUrl], it[Palabras.audioUrl], it[Palabras.ejemploUso], it[Palabras.nivelDificultad])
+                        PalabraDto(it[Palabras.id], it[Palabras.lenguaId], it[Palabras.leccionId], it[Palabras.palabraOriginal], it[Palabras.traduccion], it[Palabras.pronunciacion], it[Palabras.imagenUrl], it[Palabras.audioUrl], it[Palabras.ejemploUso], it[Palabras.nivelDificultad], it[Palabras.categoria])
                     }
                     val abecedario = Abecedario.select { Abecedario.lenguaId eq lenguaId }.orderBy(Abecedario.orden).map {
                         LetraDto(it[Abecedario.id], it[Abecedario.lenguaId], it[Abecedario.letra], it[Abecedario.pronunciacion], it[Abecedario.audioUrl], it[Abecedario.orden])
@@ -594,6 +597,34 @@ fun main() {
                 call.respond(mapOf("rachaDias" to resultado))
             }
 
+            // ---- CATEGORIZAR PALABRAS YA EXISTENTES (Saludos, Numeros, Colores, etc.) ----
+            post("/palabras/categorizar") {
+                val req = call.receive<CategorizarLoteRequest>()
+                var actualizados = 0
+                transaction {
+                    req.items.forEach { item ->
+                        val filas = Palabras.update({
+                            (Palabras.lenguaId eq item.lenguaId) and (Palabras.palabraOriginal eq item.palabraOriginal)
+                        }) {
+                            it[categoria] = item.categoria
+                        }
+                        actualizados += filas
+                    }
+                }
+                call.respond(ApiResponse("ok", "$actualizados palabras categorizadas"))
+            }
+
+            // ---- CATEGORIAS DISPONIBLES POR LENGUA (para agrupar en pantalla) ----
+            get("/lenguas/{id}/categorias") {
+                val lenguaId = call.parameters["id"]?.toIntOrNull() ?: return@get call.respond(ApiResponse("error", "ID invalido"))
+                val categorias = transaction {
+                    Palabras.select { (Palabras.lenguaId eq lenguaId) and (Palabras.categoria.isNotNull()) }
+                        .map { it[Palabras.categoria] }
+                        .distinct()
+                }
+                call.respond(categorias)
+            }
+
             // ---- UBICACIONES (GPS) ----
             post("/ubicaciones") {
                 val req = call.receive<UbicacionRequest>()
@@ -619,7 +650,7 @@ fun main() {
                         NivelDto(it[Niveles.id], it[Niveles.lenguaId], it[Niveles.nombre], it[Niveles.descripcion], it[Niveles.orden])
                     }
                     val palabras = Palabras.select { Palabras.lenguaId eq lenguaId }.map {
-                        PalabraDto(it[Palabras.id], it[Palabras.lenguaId], it[Palabras.leccionId], it[Palabras.palabraOriginal], it[Palabras.traduccion], it[Palabras.pronunciacion], it[Palabras.imagenUrl], it[Palabras.audioUrl], it[Palabras.ejemploUso], it[Palabras.nivelDificultad])
+                        PalabraDto(it[Palabras.id], it[Palabras.lenguaId], it[Palabras.leccionId], it[Palabras.palabraOriginal], it[Palabras.traduccion], it[Palabras.pronunciacion], it[Palabras.imagenUrl], it[Palabras.audioUrl], it[Palabras.ejemploUso], it[Palabras.nivelDificultad], it[Palabras.categoria])
                     }
                     mapOf("lengua" to lengua?.get(Lenguas.nombre), "niveles" to niveles, "palabras" to palabras)
                 }
